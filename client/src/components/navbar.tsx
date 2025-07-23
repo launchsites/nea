@@ -12,8 +12,8 @@ const navbar: React.FC = () => {
       <div className="flex justify-between items-center">
         <p className="text-black font-semibold text-lg">Jamie's NEA</p>
         <div className="flex gap-4">
-          <Link href="" className="text-white bg-blue-300 border-2 rounded-2xl px-2 py-1 hover:bg-blue-500 transition">Sign Up</Link>
-          <Link href="" className="text-white bg-purple-300 border-2 rounded-2xl px-2 py-1 hover:bg-purple-500 transition">Log In</Link>
+          <Link to="/sign-up" className="text-white bg-blue-300 border-2 rounded-2xl px-2 py-1 hover:bg-blue-500 transition">Sign Up</Link>
+          <Link to="/login" className="text-white bg-purple-300 border-2 rounded-2xl px-2 py-1 hover:bg-purple-500 transition">Log In</Link>
         </div>
       </div>
     </div>
