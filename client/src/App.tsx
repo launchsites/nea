@@ -1,10 +1,13 @@
+import React from 'react'
 import './App.css'
-import React from 'react';
+import Navbar from './components/navbar'
 
-const banana: React.FC = () => {
+function App() {
   return (
-    <h1 className="text-green-700">hi</h1>
+    <div>
+    <Navbar></Navbar>
+    </div>
   )
-}
+};
 
-export default banana
+export default App;

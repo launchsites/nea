@@ -1,0 +1,4 @@
+run with live view: npm run dev (cd client first)
+build: npm run build
+
+run ts: npx ts-node index.ts (after cd server first)
