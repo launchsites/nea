@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import Navbar from '../components/navbar.tsx'
 
 export default function signUp() {
   //username
@@ -9,30 +10,37 @@ export default function signUp() {
   //password
   const [password, setPassword] = useState("");
 
-  //stop page reloading on form submit
+  //on form submit
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    alert(username);
-  }
 
+    // stop page reloading
+    event.preventDefault();
+
+   //validation would go here
+    
+  }
   
   return (
-    <div>
-      <div>
-        <form onSubmit={handleFormSubmit}>
+    
+    <div className="flex min-h-screen items-center justify-center bg-gray-100">
+      <Navbar></Navbar>
+      <div className="shadow-lg border-gray-200 py-6 w-96 rounded-xl bg-white">
+        <h1 className="text-center text-2xl mb-10 font-bold">Sign Up</h1>
+        <form className="flex flex-col gap-4 items-center justify-center" onSubmit={handleFormSubmit}>
           {/* input username */}
-          <input className="" type="text" placeholder="username" value={username} onChange={(event) => setUsername(event.target.value)}>
+          <input className="text-center text-gray-800 py-2 border rounded-lg border-gray-400" type="text" placeholder="username" value={username} onChange={(event) => setUsername(event.target.value)}>
           </input>
 
           {/* input email */}
-          <input className="" type="text" placeholder="email" value={email} onChange={(event) => setEmail(event.target.value)}>
+          <input className="text-center text-gray-800 py-2 border rounded-lg border-gray-400" type="email" placeholder="email" value={email} onChange={(event) => setEmail(event.target.value)}>
             </input>
 
           {/* input password */}
-          <input className="" type="text" placeholder="password" value={password} onChange={(event) => setPassword(event.target.value)}>
+          <input className="text-center text-gray-800 py-2 border rounded-lg border-gray-400" type="password" placeholder="password" value={password} onChange={(event) => setPassword(event.target.value)}>
             </input>
-
-          <button type="submit">Submit</button>
+          <a href="">
+          <button className={`text-white bg-blue-300 p-2 rounded-xl hover:bg-purple-300`} type="submit">Submit</button>
+          </a>
         </form>
       </div>
     </div>
