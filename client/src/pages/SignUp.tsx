@@ -22,24 +22,24 @@ export default function signUp() {
   
   return (
     
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
+    <div className="bg-black h-screen">
       <Navbar></Navbar>
-      <div className="shadow-lg border-gray-200 py-6 w-96 rounded-xl bg-white">
-        <h1 className="text-center text-2xl mb-10 font-bold">Sign Up</h1>
-        <form className="flex flex-col gap-4 items-center justify-center" onSubmit={handleFormSubmit}>
+      <div className="text-white justify-center flex p-10">
+        <form className="flex flex-col text-4xl text-center" onSubmit={handleFormSubmit}>
+            <h1 className="m-5 text-6xl">Sign Up</h1>
           {/* input username */}
-          <input className="text-center text-gray-800 py-2 border rounded-lg border-gray-400" type="text" placeholder="username" value={username} onChange={(event) => setUsername(event.target.value)}>
+          <input className="text-center border-2 m-5 p-2" type="text" placeholder="username" value={username} onChange={(event) => setUsername(event.target.value)}>
           </input>
 
           {/* input email */}
-          <input className="text-center text-gray-800 py-2 border rounded-lg border-gray-400" type="email" placeholder="email" value={email} onChange={(event) => setEmail(event.target.value)}>
+          <input className="text-center border-2 m-5 p-2" type="email" placeholder="email" value={email} onChange={(event) => setEmail(event.target.value)}>
             </input>
 
           {/* input password */}
-          <input className="text-center text-gray-800 py-2 border rounded-lg border-gray-400" type="password" placeholder="password" value={password} onChange={(event) => setPassword(event.target.value)}>
+          <input className="text-center border-2 m-5 p-2" type="password" placeholder="password" value={password} onChange={(event) => setPassword(event.target.value)}>
             </input>
           <a href="">
-          <button className={`text-white bg-blue-300 p-2 rounded-xl hover:bg-purple-300`} type="submit">Submit</button>
+          <button className={"border-2 m-5 w-120 p-2 bg-yellow-500 transition hover:bg-yellow-400"} type="submit">Submit</button>
           </a>
         </form>
       </div>

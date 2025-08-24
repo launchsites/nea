@@ -12,12 +12,12 @@ const port = 3000;
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // route handler for GET requests to /api/ping, responding 'pong'
-app.get('/api/ping', (req, res) => {
+app.get('/api/ping', (request, response) => {
   res.json({ message: 'pong' });
 });
 
 // if doesn't know what to do, gives them index.html
-app.use((req, res) => {
+app.use((request, response) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
