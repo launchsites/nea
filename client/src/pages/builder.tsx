@@ -1,5 +1,10 @@
 import React from 'react';
 import {useState} from 'react';
+import Canvas from "../components/canvas.tsx";
+import CodeDisplay from "../components/codeDisplay.tsx";
+import ComponentLibrary from "../components/componentLibrary.tsx";
+import LivePreview from "../components/livePreview.tsx";
+
 //import {Link} from "react-router-dom";
 
 
@@ -11,14 +16,14 @@ const Builder: React.FC = () => {
     const [canvasOpen, setCanvasOpen] = useState(false);
     const [codeDisplayOpen, setCodeDisplayOpen] = useState(false);
     const [componentLibraryOpen, setComponentLibraryOpen] = useState(false);
-    const [responsiveControlsOpen, setResponsiveControlsOpen] = useState(false);
+    const [livePreviewOpen, setlivePreviewOpen] = useState(false);
 
     function numberOpen() {
         let numberOpen:number = 0;
         if (canvasOpen) {numberOpen +=1}
         if (codeDisplayOpen) {numberOpen +=1}
         if (componentLibraryOpen) {numberOpen +=1}
-        if (responsiveControlsOpen) {numberOpen +=1}
+        if (livePreviewOpen) {numberOpen +=1}
         return numberOpen;
     }
 
@@ -62,15 +67,21 @@ const Builder: React.FC = () => {
                         ? <button onClick={() => {setComponentLibraryOpen(!componentLibraryOpen); numberOpen();}} className={"w-1/4 flex text-yellow-400 justify-center hover:text-yellow-300"}>Component Library</button>
                         : <button onClick={() => {setComponentLibraryOpen(!componentLibraryOpen); numberOpen();}} className={"w-1/4 flex justify-center hover:text-white"}>Component Library</button>
                     }
-                    {responsiveControlsOpen
-                        ? <button onClick={() => {setResponsiveControlsOpen(!responsiveControlsOpen); numberOpen();}} className={"w-1/4 flex text-yellow-400 justify-center hover:text-yellow-300"}>Responsive Controls</button>
-                        : <button onClick={() => {setResponsiveControlsOpen(!responsiveControlsOpen); numberOpen();}} className={"w-1/4 flex justify-center hover:text-white"}>Responsive Controls</button>
+                    {livePreviewOpen
+                        ? <button onClick={() => {setlivePreviewOpen(!livePreviewOpen); numberOpen();}} className={"w-1/4 flex text-yellow-400 justify-center hover:text-yellow-300"}>Live Preview</button>
+                        : <button onClick={() => {setlivePreviewOpen(!livePreviewOpen); numberOpen();}} className={"w-1/4 flex justify-center hover:text-white"}>Live Preview</button>
                     }
                 </div>
                 : null
             }
 
-            <div style={{width: widthPercent}}>test</div>
+            {/* panels */}
+            <div className={"flex justify-center text-center"}>
+                {canvasOpen ? <div style={{width: widthPercent}}><Canvas></Canvas></div> : null}
+                {codeDisplayOpen ? <div style={{width: widthPercent}}><CodeDisplay></CodeDisplay></div> : null}
+                {componentLibraryOpen ? <div style={{width: widthPercent}}><ComponentLibrary></ComponentLibrary></div> : null}
+                {livePreviewOpen ? <div style={{width: widthPercent}}><LivePreview></LivePreview></div> : null}
+            </div>
 
         </div>
 
