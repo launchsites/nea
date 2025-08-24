@@ -1,4 +1,5 @@
 import Navbar from '../components/navbar'
+import {Link} from "react-router-dom";
 
 export default function Home() {
 
@@ -17,7 +18,7 @@ export default function Home() {
             </div>
 
             <div className="flex justify-center p-5">
-                <a className="border-2 rounded-2xl p-2 hover:bg-yellow-500">Sign Up</a>
+                <Link to={"/sign-up"} className="border-2 rounded-2xl p-2 hover:bg-yellow-500">Sign Up</Link>
             </div>
         </div>
       

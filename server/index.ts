@@ -13,12 +13,12 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // route handler for GET requests to /api/ping, responding 'pong'
 app.get('/api/ping', (request, response) => {
-  res.json({ message: 'pong' });
+  response.json({ message: 'pong' });
 });
 
 // if doesn't know what to do, gives them index.html
 app.use((request, response) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+  response.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 // starts server to listen to incoming connections on port

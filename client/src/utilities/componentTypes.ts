@@ -1,4 +1,4 @@
-type htmlTag =
+export type htmlTag =
     | 'a'
     | 'article'
     | 'body'
@@ -21,14 +21,17 @@ type htmlTag =
     | 'label'
     | 'li'
     | 'nav'
+    | 'ol'
     | 'option'
+    | 'p'
     | 'script'
     | 'section'
     | 'span'
     | 'style'
-    | 'title';
+    | 'title'
+    | 'ul';
 
-interface Component {
+export interface Component {
     type: htmlTag;
     id: string
     selfClosing: boolean;
@@ -38,4 +41,3 @@ interface Component {
     children?: Component[];
 
 }
-
