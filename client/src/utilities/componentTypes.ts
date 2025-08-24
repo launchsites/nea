@@ -18,7 +18,6 @@ export type htmlTag =
     | 'html'
     | 'img'
     | 'input'
-    | 'label'
     | 'li'
     | 'nav'
     | 'ol'

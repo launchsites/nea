@@ -13,7 +13,7 @@ const Builder: React.FC = () => {
     const [menuToggled, setMenuToggled] = useState(false);
 
     //window toggles
-    const [canvasOpen, setCanvasOpen] = useState(false);
+    const [canvasOpen, setCanvasOpen] = useState(true);
     const [codeDisplayOpen, setCodeDisplayOpen] = useState(false);
     const [componentLibraryOpen, setComponentLibraryOpen] = useState(false);
     const [livePreviewOpen, setlivePreviewOpen] = useState(false);
