@@ -28,57 +28,57 @@ export default function ComponentLibrary() {
                     <div className={"w-2/3 h-65 overflow-y-auto"}>
                         {filterClicked == "structure" && (
                             <div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>html</div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>head</div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>body</div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>div</div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>section</div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>article</div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>header</div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>footer</div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>nav</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "html")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>html</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "head")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>head</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "body")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>body</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "div")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>div</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "section")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>section</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "article")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>article</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "header")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>header</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "footer")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>footer</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "nav")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>nav</div>
                             </div>
                         )}
                         {filterClicked == "content" && (
                             <div>
-                            <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>p</div>
-                            <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>h1</div>
-                            <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>h2</div>
-                            <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>h3</div>
-                            <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>h4</div>
-                            <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>h5</div>
-                            <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>h6</div>
-                            <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>span</div>
-                        </div>
-                        )}
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "p")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>p</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "h1")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>h1</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "h2")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>h2</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "h3")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>h3</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "h4")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>h4</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "h5")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>h5</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "h6")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>h6</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "span")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>span</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "br")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>br</div>
+                            </div>
+                                )}
                         {filterClicked == "forms" && (
                             <div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>a</div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>button</div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>form</div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>input</div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>label</div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>option</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "a")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>a</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "button")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>button</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "form")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>form</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "input")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>input</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "label")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>label</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "option")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>option</div>
                             </div>
                         )}
                         {filterClicked == "media" && (
                             <div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>img</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "img")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>img</div>
                             </div>
                         )}
                         {filterClicked == "lists" && (
                             <div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>ul</div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>ol</div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>li</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "ul")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>ul</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "ol")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>ol</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "li")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>li</div>
                             </div>
                         )}
                         {filterClicked == "meta" && (
                             <div>
-                                <div className={"bg-yellow-500 hover:bg-yellow-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>script</div>
-                                <div className={"bg-blue-500 hover:bg-blue-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>style</div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>title</div>
-                                <div className={"bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>br</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "script")} className={"bg-yellow-500 hover:bg-yellow-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>script</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "style")} className={"bg-blue-500 hover:bg-blue-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>style</div>
+                                <div draggable onDragStart={(event) => event.dataTransfer.setData("componentType", "title")} className={"cursor-move bg-orange-500 hover:bg-orange-400 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200"}>title</div>
                             </div>
                         )}
                     </div>
