@@ -1,77 +1,39 @@
-import { componentTemplates} from "../utilities/componentTemplates.ts";
-import type { Component } from '../utilities/componentTypes.ts'
+// import { componentTemplates} from "../utilities/componentTemplates.ts";
+// import type { Component } from '../utilities/componentTypes.ts'
+// import {useState} from "react";
+
 import {useState} from "react";
 
 export default function ComponentLibrary() {
 
-    const [openLibrary, setOpenLibrary] = useState("Content");
+    const clickedButtonClass: string = "bg-yellow-500 p-1 mx-2 my-2 rounded-lg shadow text-white transition duration-200";
+    const unclickedButtonClass: string = "mx-2 my-1 p-1";
+
+
+    const [filterClicked, setFilterClicked] = useState("structure");
 
     return(
         <main>
-            <div className={"w-full bg-gray-700 text-white border-x border-white" }>Component Library</div>
-            <div>
-
-                {/*component categories*/}
-                <div className={"flex justify-center text-center"}>
-                    {openLibrary === "Content"
-                        ? <button onClick={() => setOpenLibrary("Content")} className={"bg-black border-x border-white w-1/4 text-yellow-400 hover:text-yellow-300"}>Content</button>
-                        : <button onClick={() => setOpenLibrary("Content")} className={"bg-black border-x border-white w-1/4 text-[#c1c1c3] hover:text-white"}>Content</button>
-
-                    }
-                    {openLibrary === "Layout"
-                        ? <button onClick={() => setOpenLibrary("Layout")} className={"bg-black border-x border-white w-1/4 text-yellow-400 hover:text-yellow-300"}>Layout</button>
-                        : <button onClick={() => setOpenLibrary("Layout")} className={"bg-black border-x border-white w-1/4 text-[#c1c1c3] hover:text-white"}>Layout</button>
-
-                    }
-                    {openLibrary === "Forms"
-                        ? <button onClick={() => setOpenLibrary("Forms")} className={"bg-black border-x border-white w-1/4 text-yellow-400 hover:text-yellow-300"}>Forms</button>
-                        : <button onClick={() => setOpenLibrary("Forms")} className={"bg-black border-x border-white w-1/4 text-[#c1c1c3] hover:text-white"}>Forms</button>
-
-                    }
-                    {openLibrary === "Miscellaneous"
-                        ? <button onClick={() => setOpenLibrary("Miscellaneous")} className={"bg-black border-x border-white w-1/4 text-yellow-400 hover:text-yellow-300"}>Miscellaneous</button>
-                        : <button onClick={() => setOpenLibrary("Miscellaneous")} className={"bg-black border-x border-white w-1/4 text-[#c1c1c3] hover:text-white"}>Miscellaneous</button>
-
-                    }
+            <div className={"rounded-2xl"}>
+                <div className={"border-b-2 border-gray-300"}>Component Library</div>
+                <div className={"flex columns-2"}>
+                    <div className={"w-1/3 border-r-2 border-gray-300 flex flex-col"}>
+                        <button onClick={() => setFilterClicked("structure")} className={filterClicked == "structure" ? clickedButtonClass : unclickedButtonClass}>Structure</button>
+                        <button onClick={() => setFilterClicked("content")} className={filterClicked == "content" ? clickedButtonClass : unclickedButtonClass}>Text / Content</button>
+                        <button onClick={() => setFilterClicked("forms")} className={filterClicked == "forms" ? clickedButtonClass : unclickedButtonClass}>Forms / Interactive</button>
+                        <button onClick={() => setFilterClicked("media")} className={filterClicked == "media" ? clickedButtonClass : unclickedButtonClass}>Media</button>
+                        <button onClick={() => setFilterClicked("lists")} className={filterClicked == "lists" ? clickedButtonClass : unclickedButtonClass}>Lists</button>
+                        <button onClick={() => setFilterClicked("meta")} className={filterClicked == "meta" ? clickedButtonClass : unclickedButtonClass}>Meta / Logic</button>
+                    </div>
+                    <div className={"w-2/3"}>
+                        {filterClicked == "structure" && ("structure")}
+                        {filterClicked == "content" && ("content")}
+                        {filterClicked == "forms" && ("forms")}
+                        {filterClicked == "media" && ("media")}
+                        {filterClicked == "lists" && ("lists")}
+                        {filterClicked == "meta" && ("meta")}
+                    </div>
                 </div>
-                {openLibrary == "Content"
-                    ? <div>
-                        {/*Text: h1,2,3,4,5,6,p
-                        Layout: div,br,body,html,span, footer
-                        Forms: input button form option
-                        Misc:
-                        */}
-                    </div>
-                    : null
-                }
-                {openLibrary == "Layout"
-                    ? <div className="overflow-y-auto h-[calc(100vh-180px)]">
-                        <div className={"flex justify-center text-center"}>
-                            <div className={"w-1/3 p-1 m-3 rounded-xl bg-orange-500 h-1/4 aspect-square text-center text-white"}>div</div>
-                            <div className={"w-1/3 p-1 m-3 rounded-xl bg-orange-500 h-1/4 aspect-square text-center text-white"}></div>
-                            <div className={"w-1/3 p-1 m-3 rounded-xl bg-orange-500 h-1/4 aspect-square text-center text-white"}></div>
-                        </div>
-                        <div className={"flex justify-center text-center"}>
-                            <div className={"w-1/3 p-1 m-3 rounded-xl bg-orange-500 h-1/4 aspect-square text-center text-white"}>div</div>
-                            <div className={"w-1/3 p-1 m-3 rounded-xl bg-orange-500 h-1/4 aspect-square text-center text-white"}></div>
-                            <div className={"w-1/3 p-1 m-3 rounded-xl bg-orange-500 h-1/4 aspect-square text-center text-white"}></div>
-                        </div>
-                        <div className={"flex justify-center text-center"}>
-                            <div className={"w-1/3 p-1 m-3 rounded-xl bg-orange-500 h-1/4 aspect-square text-center text-white"}>div</div>
-                            <div className={"w-1/3 p-1 m-3 rounded-xl bg-orange-500 h-1/4 aspect-square text-center text-white"}></div>
-                            <div className={"w-1/3 p-1 m-3 rounded-xl bg-orange-500 h-1/4 aspect-square text-center text-white"}></div>
-                        </div>
-                    </div>
-                    : null
-                }
-                {openLibrary == "Forms"
-                    ? <div></div>
-                    : null
-                }
-                {openLibrary == "Miscellaneous"
-                    ? <div></div>
-                    : null
-                }
             </div>
         </main>
     )
