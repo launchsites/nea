@@ -1,4 +1,4 @@
-import { Component, htmlTag} from "../utilities/componentTypes.ts";
+import type {Component, htmlTag} from "../utilities/componentTypes.ts";
 import {componentTemplates} from "../utilities/componentTemplates.ts";
 import {useState} from "react";
 
@@ -36,14 +36,20 @@ export default function Canvas() {
         const y = event.clientY - canvasLocation.top
         console.log(x, y)
 
+        // make new component to be added to components array
         const newComponent: placedComponent = {
             type: componentType,
+            // function creates a unique id which includes the type of component it is
             id: (function generateID() {
-                let found = false;
+
+
                 let running = true;
+                //index of components
                 let num: number = 0
+                //string to return if somehow fails
                 let fallBackString: string = ""
                 while (running){
+                    let found = false;
                     for (let i = 0; i < components.length; i++) {
                         if (components[i].id === `${componentType}${num}`) {
                             found = true;
@@ -55,13 +61,17 @@ export default function Canvas() {
                 }
                 return fallBackString
             } ()),
+            // getting the attributes from the component templates
             selfClosing: componentTemplates.find(template => template.type === componentType)?.selfClosing??false,
             acceptsChildren: componentTemplates.find(template => template.type === componentType)?.acceptsChildren??false,
             attributes: componentTemplates.find(template => template.type === componentType)?.attributes ?? {},
             styles: componentTemplates.find(template => template.type === componentType)?.styles ?? {},
+            // coordinates found earlier
             x: x,
             y: y,
-            color: (function chooseColor() {
+            // html / js / css coloring
+            color:
+                (function chooseColor() {
                 if (componentType == "script") {
                     return "yellow-500"
                 }
@@ -73,10 +83,12 @@ export default function Canvas() {
                 }
             }())
         }
+        setComponents(previous => [...previous, newComponent]);
+
     }
 
     return(
-        <main onDragOver={(event) => event.preventDefault()} onDrop={handleDrop} className={"flex-1 bg-[radial-gradient(#d1d5db_1.5px,transparent_0)] bg-[length:40px_40px]"}>
+        <main onDragOver={(event) => event.preventDefault()} onDrop={handleDrop} className={"flex-1 relative bg-[radial-gradient(#d1d5db_1.5px,transparent_0)] bg-[length:40px_40px]"}>
 
         </main>
     )

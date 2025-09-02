@@ -54,7 +54,7 @@ const Builder: React.FC = () => {
                 </div>
             </div>
             {componentLibraryOpen && (
-                <div className={"flex fixed justify-center items-center text-center mt-15 w-full"}>
+                <div className={" z-60 flex fixed justify-center items-center text-center mt-15 w-full"}>
                     <div className={"w-1/3 shadow rounded-2xl bg-white"}><ComponentLibrary></ComponentLibrary></div>
                 </div>
             )

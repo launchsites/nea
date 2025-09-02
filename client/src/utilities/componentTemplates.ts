@@ -154,14 +154,6 @@ export const componentTemplates: Component[] = [
         styles: {},
     },
     {
-        id: "label-template",
-        type: "label",
-        selfClosing: false,
-        acceptsChildren: true,
-        attributes: { for: "", class: "" },
-        styles: {},
-    },
-    {
         id: "list-template",
         type: "li",
         selfClosing: false,
