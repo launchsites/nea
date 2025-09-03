@@ -36,6 +36,7 @@ export default function Canvas() {
         const y = event.clientY - canvasLocation.top
         console.log(x, y)
 
+
         // make new component to be added to components array
         const newComponent: placedComponent = {
             type: componentType,
@@ -89,7 +90,17 @@ export default function Canvas() {
 
     return(
         <main onDragOver={(event) => event.preventDefault()} onDrop={handleDrop} className={"flex-1 relative bg-[radial-gradient(#d1d5db_1.5px,transparent_0)] bg-[length:40px_40px]"}>
-
+            {components.map((component) => (
+                <div
+                    key={component.id}
+                    className={`absolute bg-${component.color} text-white w-30 h-30 text-center rounded-lg shadow`}
+                    style={{ top: component.y, left: component.x }}
+                    draggable
+                    onDragStart={(event) => event.dataTransfer.setData("componentType", "html") }
+                >
+                    {`<${component.type}>`}
+                </div>
+            ))}
         </main>
     )
 }
