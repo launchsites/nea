@@ -37,6 +37,30 @@ export default function Canvas() {
         console.log(x, y)
 
 
+        //check if is new being dragged in, or old being moved
+        if (event.dataTransfer.getData("componentID") !== "") {
+            // get id of the moving component
+            const draggedId = event.dataTransfer.getData("componentID");
+
+            // make copy of current components array
+            const updatedComponents = [...components];
+
+            // for loop to find the component with the ID that is the same as the one moving
+            for (let i = 0; i < updatedComponents.length; i++) {
+                if (updatedComponents[i].id === draggedId) {
+                    //change to current coordinates
+                    updatedComponents[i].x = x;
+                    updatedComponents[i].y = y;
+                }
+            }
+
+            // usestate function to update components array to up to date version
+            setComponents(updatedComponents);
+
+            return;
+        }
+
+        else {
         // make new component to be added to components array
         const newComponent: placedComponent = {
             type: componentType,
@@ -85,8 +109,9 @@ export default function Canvas() {
             }())
         }
         setComponents(previous => [...previous, newComponent]);
-
+        }
     }
+
 
     return(
         <main onDragOver={(event) => event.preventDefault()} onDrop={handleDrop} className={"flex-1 relative bg-[radial-gradient(#d1d5db_1.5px,transparent_0)] bg-[length:40px_40px]"}>
@@ -96,7 +121,10 @@ export default function Canvas() {
                     className={`absolute bg-${component.color} text-white w-30 h-30 text-center rounded-lg shadow`}
                     style={{ top: component.y, left: component.x }}
                     draggable
-                    onDragStart={(event) => event.dataTransfer.setData("componentType", "html") }
+                    onDragStart={(event) => {
+                        event.dataTransfer.setData("componentType", "html")
+                        event.dataTransfer.setData("componentID", component.id)
+                    } }
                 >
                     {`<${component.type}>`}
                 </div>
