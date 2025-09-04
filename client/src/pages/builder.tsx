@@ -2,8 +2,7 @@ import React from 'react';
 import {useState} from 'react';
 import Canvas from "../components/canvas.tsx";
 import ComponentLibrary from "../components/componentLibrary.tsx";
-// import CodeDisplay from "../components/codeDisplay.tsx";
-// import ComponentLibrary from "../components/componentLibrary.tsx";
+import CodeDisplay from "../components/codeDisplay.tsx";
 // import LivePreview from "../components/livePreview.tsx";
 
 //import {Link} from "react-router-dom";
@@ -54,7 +53,8 @@ const Builder: React.FC = () => {
                 </div>
             </div>
             {componentLibraryOpen && (
-                <div className={" z-60 flex fixed justify-center items-center text-center mt-15 w-full"}>
+
+                <div className={"z-60 flex fixed justify-center items-center text-center mt-15 w-full"}>
                     <div className={"w-1/3 shadow rounded-2xl bg-white"}><ComponentLibrary></ComponentLibrary></div>
                 </div>
             )
@@ -66,6 +66,9 @@ const Builder: React.FC = () => {
             }
             {canvasOpen && (
                 <Canvas></Canvas>
+            )}
+            {codeDisplayOpen && (
+                <CodeDisplay></CodeDisplay>
             )}
         </main>
 
