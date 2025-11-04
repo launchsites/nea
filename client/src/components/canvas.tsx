@@ -12,14 +12,50 @@ export default function Canvas() {
         acceptsChildren: boolean;
         attributes?: Record<string, string>;
         styles?: Record<string, string>;
-        children?: Component[];
+        children?: placedComponent[];
         x: number
         y: number
         color: string
     }
 
     // array of components on the canvas
-    const [components, setComponents] = useState<placedComponent[]>([]);
+    const [components, setComponents] = useState<placedComponent[]>([
+        {
+            acceptsChildren: true,
+            attributes: {},
+            color: "orange-500",
+            id: "html0",
+            selfClosing: false,
+            styles: {},
+            type: "html",
+            x: 500,
+            y: 500,
+            children: [
+                  {
+                    acceptsChildren: true,
+                    attributes: {},
+                    color: "orange-500",
+                    id: "head0",
+                    selfClosing: false,
+                    styles: {},
+                    type: "head",
+                    x: 800,
+                    y: 500
+                  },
+                {
+                    acceptsChildren: true,
+                    attributes: {},
+                    color: "orange-500",
+                    id: "head0",
+                    selfClosing: false,
+                    styles: {},
+                    type: "head",
+                    x: 800,
+                    y: 500
+                  }
+                ]
+          },
+    ]);
 
     function handleDrop(event: React.DragEvent) {
         //stop it dispaering
@@ -112,23 +148,50 @@ export default function Canvas() {
         }
     }
 
+    function renderComponent(component: placedComponent) {
+        function renderChild(child: placedComponent) {
+            return(
+                <div
+                    key={child.id}
+                    className={`relative bg-${child.color} p-3 border-2 justify-center border-white text-white text-center rounded-lg shadow flex flex-col items-center`}
+                    style={{ width: `${7.5+0}rem` }}
+                    draggable
+                    onDragStart={(event) => {
+                        event.dataTransfer.setData("componentType", "html")
+                        event.dataTransfer.setData("componentID", child.id)
+                    } }
+                >
+                    <p className="pb-3">{`<${child.type}>`}</p>
+                    {child.children?.map((child) => renderChild(child))}
+                </div>
+            )
+        }
+        return(
+            <div
+                key={component.id}
+                className={`absolute bg-${component.color} p-3 border-2 justify-center border-white text-white text-center rounded-lg shadow flex flex-col items-center`}
+                style={{ top: component.y, left: component.x, width: `${7.5+0}rem` }}
+                draggable
+                onDragStart={(event) => {
+                    event.dataTransfer.setData("componentType", "html")
+                    event.dataTransfer.setData("componentID", component.id)
+                } }
+            >
+                <p className="pb-3">{`<${component.type}>`}</p>
+                {component.children?.map((child) => renderChild(child))}
+            </div>
+        )
+    }
+
 
     return(
         <main onDragOver={(event) => event.preventDefault()} onDrop={handleDrop} className={"flex-1 relative bg-[radial-gradient(#d1d5db_1.5px,transparent_0)] bg-[length:40px_40px]"}>
             {components.map((component) => (
-                <div
-                    key={component.id}
-                    className={`absolute bg-${component.color} text-white w-30 h-30 text-center rounded-lg shadow`}
-                    style={{ top: component.y, left: component.x }}
-                    draggable
-                    onDragStart={(event) => {
-                        event.dataTransfer.setData("componentType", "html")
-                        event.dataTransfer.setData("componentID", component.id)
-                    } }
-                >
-                    {`<${component.type}>`}
-                </div>
+                
+            renderComponent(component)
+        
             ))}
+            
         </main>
     )
 }

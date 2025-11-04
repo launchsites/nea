@@ -19,7 +19,6 @@ const Builder: React.FC = () => {
     const [codeDisplayOpen, setCodeDisplayOpen] = useState(false);
     const [livePreviewOpen, setLivePreviewOpen] = useState(false);
 
-
     return (
 
         <main className={"bg-gray-50 flex-col flex h-screen"}>

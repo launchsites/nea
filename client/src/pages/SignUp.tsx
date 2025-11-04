@@ -17,7 +17,7 @@ export default function signUp() {
     event.preventDefault();
 
    //validation would go here
-    
+    // alert(username + " " + email + " " + password)
   }
   
   return (
