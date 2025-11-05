@@ -12,7 +12,7 @@ export default function Canvas() {
         acceptsChildren: boolean;
         attributes?: Record<string, string>;
         styles?: Record<string, string>;
-        children?: placedComponent[];
+        children?: Component[];
         x: number
         y: number
         color: string
@@ -34,24 +34,26 @@ export default function Canvas() {
                   {
                     acceptsChildren: true,
                     attributes: {},
-                    color: "orange-500",
                     id: "head0",
                     selfClosing: false,
                     styles: {},
                     type: "head",
-                    x: 800,
-                    y: 500
                   },
                 {
                     acceptsChildren: true,
                     attributes: {},
-                    color: "orange-500",
                     id: "head0",
                     selfClosing: false,
                     styles: {},
-                    type: "head",
-                    x: 800,
-                    y: 500
+                    type: "style",
+                    children: [{
+                            acceptsChildren: true,
+                            attributes: {},
+                            id: "head0",
+                            selfClosing: false,
+                            styles: {},
+                            type: "script",
+                          }, ]
                   }
                 ]
           },
@@ -148,12 +150,24 @@ export default function Canvas() {
         }
     }
 
+
+    
     function renderComponent(component: placedComponent) {
         function renderChild(child: placedComponent) {
             return(
                 <div
                     key={child.id}
-                    className={`relative bg-${child.color} p-3 border-2 justify-center border-white text-white text-center rounded-lg shadow flex flex-col items-center`}
+                    className={`relative bg-${(function chooseColor() {
+                                                if (child.type == "script") {
+                                                    return "yellow-500"
+                                                }
+                                                else if (child.type == "style") {
+                                                    return "blue-500"
+                                                }
+                                                else {
+                                                    return "orange-500"
+                                                }
+                                            }())} p-3 border-2 justify-center border-white text-white text-center rounded-lg shadow flex flex-col items-center`}
                     style={{ width: `${7.5+0}rem` }}
                     draggable
                     onDragStart={(event) => {
@@ -162,7 +176,7 @@ export default function Canvas() {
                     } }
                 >
                     <p className="pb-3">{`<${child.type}>`}</p>
-                    {child.children?.map((child) => renderChild(child))}
+                    {child.children?.map((child) => renderChild(child as placedComponent))}
                 </div>
             )
         }
@@ -178,7 +192,7 @@ export default function Canvas() {
                 } }
             >
                 <p className="pb-3">{`<${component.type}>`}</p>
-                {component.children?.map((child) => renderChild(child))}
+                {component.children?.map((child) => renderChild(child as placedComponent))}
             </div>
         )
     }
