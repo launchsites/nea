@@ -60,6 +60,7 @@ export default function Canvas() {
     ]);
 
     function handleDrop(event: React.DragEvent) {
+        alert(calculateLevels(components))
         //stop it dispaering
         event.preventDefault()
         // get the component type from the dragged component
@@ -148,6 +149,26 @@ export default function Canvas() {
         }
         setComponents(previous => [...previous, newComponent]);
         }
+    }
+
+    // needs to for each child figure out which goes deeper, and then add that to levels and compare them
+    function calculateLevels(components) {
+        // levels start at 0
+        // for each level it needs to add 1
+        // it will do this recursively and compare which child returns a greater value, adding that to the current levels
+        let levels = 0
+        let tempLevels = 0
+        for (let i=0; i < components.length; i++) {
+            if (components[i].children) {
+                levels += 1
+                if (calculateLevels(components[i].children) > tempLevels) {
+                    tempLevels = calculateLevels(components[i].children)
+                }
+            }
+        }
+        levels += tempLevels
+        return levels
+
     }
 
 
