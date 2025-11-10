@@ -53,14 +53,72 @@ export default function Canvas() {
                             selfClosing: false,
                             styles: {},
                             type: "script",
+                        children: [
+                              {
+                                acceptsChildren: true,
+                                attributes: {},
+                                id: "head0",
+                                selfClosing: false,
+                                styles: {},
+                                type: "head",
+                              },
+                            {
+                                acceptsChildren: true,
+                                attributes: {},
+                                id: "head0",
+                                selfClosing: false,
+                                styles: {},
+                                type: "style",
+                                children: [{
+                                        acceptsChildren: true,
+                                        attributes: {},
+                                        id: "head0",
+                                        selfClosing: false,
+                                        styles: {},
+                                        type: "script",
+                                      }, ]
+                              }
+                            ]
                           }, ]
                   }
                 ]
           },
     ]);
 
+    function findComponent(components, componentId) {
+        for (let i = 0; i < components.length; i++) {
+            if (components[i].id == componentId) {
+                return components[i]
+            }
+            else if (components[i].children) {
+                const found = findComponent(components[i].children, componentId)
+                if (found) {return found}
+            }
+        }
+        return false
+    }
+
+    function generateId(componentType: htmlTag) {
+
+        let running = true;
+        //index of components
+        let num: number = 0
+        //string to return if somehow fails
+        let fallBackString: string = ""
+        while (running){
+            const found = findComponent(components, `${componentType}${num}`)
+            fallBackString += `${componentType}${num}`
+            if (!found) {running = false ; return `${componentType}${num}`}
+            else {num += 1}
+            }
+        return fallBackString
+    };
+
+    // function findAndMove(components, draggedComponentId, dropComponentId) {
+    //     // make function for finnding a component where it just returns a variable which is the object and then in find and move we make it so that dragged component it added to droppedComponent and then deleeted
+    // }
+
     function handleDrop(event: React.DragEvent) {
-        alert(calculateLevels(components))
         //stop it dispaering
         event.preventDefault()
         // get the component type from the dragged component
@@ -104,27 +162,7 @@ export default function Canvas() {
         const newComponent: placedComponent = {
             type: componentType,
             // function creates a unique id which includes the type of component it is
-            id: (function generateID() {
-
-
-                let running = true;
-                //index of components
-                let num: number = 0
-                //string to return if somehow fails
-                let fallBackString: string = ""
-                while (running){
-                    let found = false;
-                    for (let i = 0; i < components.length; i++) {
-                        if (components[i].id === `${componentType}${num}`) {
-                            found = true;
-                        }
-                    }
-                    fallBackString += `${componentType}${num}`
-                    if (!found) {running = false ; return `${componentType}${num}`}
-                    else {num += 1}
-                }
-                return fallBackString
-            } ()),
+            id: (generateId(componentType)),
             // getting the attributes from the component templates
             selfClosing: componentTemplates.find(template => template.type === componentType)?.selfClosing??false,
             acceptsChildren: componentTemplates.find(template => template.type === componentType)?.acceptsChildren??false,
@@ -151,6 +189,8 @@ export default function Canvas() {
         }
     }
 
+
+    
     // needs to for each child figure out which goes deeper, and then add that to levels and compare them
     function calculateLevels(components) {
         // levels start at 0
@@ -171,10 +211,15 @@ export default function Canvas() {
 
     }
 
+    const levels = calculateLevels(components)
 
     
-    function renderComponent(component: placedComponent) {
-        function renderChild(child: placedComponent) {
+    function renderComponent(component: placedComponent, levels: number) {
+        let depth = 0
+        function renderChild(child: placedComponent, depth: number, levels: number) {
+
+            depth += 1
+            
             return(
                 <div
                     key={child.id}
@@ -188,8 +233,8 @@ export default function Canvas() {
                                                 else {
                                                     return "orange-500"
                                                 }
-                                            }())} p-3 border-2 justify-center border-white text-white text-center rounded-lg shadow flex flex-col items-center`}
-                    style={{ width: `${7.5+0}rem` }}
+                                            }())} p-3 m-2 border-2 justify-center border-white text-white text-center rounded-lg shadow flex flex-col items-center`}
+                    style={{ width: `${7.5+(4*(levels-depth))}rem` }}
                     draggable
                     onDragStart={(event) => {
                         event.dataTransfer.setData("componentType", "html")
@@ -197,23 +242,24 @@ export default function Canvas() {
                     } }
                 >
                     <p className="pb-3">{`<${child.type}>`}</p>
-                    {child.children?.map((child) => renderChild(child as placedComponent))}
+                    {child.children?.map((child) => renderChild(child as placedComponent, depth, levels))}
                 </div>
             )
         }
         return(
             <div
                 key={component.id}
-                className={`absolute bg-${component.color} p-3 border-2 justify-center border-white text-white text-center rounded-lg shadow flex flex-col items-center`}
-                style={{ top: component.y, left: component.x, width: `${7.5+0}rem` }}
+                className={`absolute bg-${component.color} p-3border-2 justify-center border-white text-white text-center rounded-lg shadow flex flex-col items-center`}
+                style={{ top: component.y, left: component.x, width: `${7.5+(4*levels)}rem` }}
                 draggable
                 onDragStart={(event) => {
                     event.dataTransfer.setData("componentType", "html")
                     event.dataTransfer.setData("componentID", component.id)
                 } }
+                onDragOver={(event) => event.preventDefault()} onDrop={handleDrop}
             >
                 <p className="pb-3">{`<${component.type}>`}</p>
-                {component.children?.map((child) => renderChild(child as placedComponent))}
+                {component.children?.map((child) => renderChild(child as placedComponent, depth, levels))}
             </div>
         )
     }
@@ -223,7 +269,7 @@ export default function Canvas() {
         <main onDragOver={(event) => event.preventDefault()} onDrop={handleDrop} className={"flex-1 relative bg-[radial-gradient(#d1d5db_1.5px,transparent_0)] bg-[length:40px_40px]"}>
             {components.map((component) => (
                 
-            renderComponent(component)
+            renderComponent(component, levels)
         
             ))}
             
