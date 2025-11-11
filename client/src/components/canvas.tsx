@@ -85,17 +85,43 @@ export default function Canvas() {
           },
     ]);
 
-    function findComponent(components, componentId) {
-        for (let i = 0; i < components.length; i++) {
-            if (components[i].id == componentId) {
-                return components[i]
+    function findComponent(components: placedComponent[] | any, componentId: string, option: "full" | "parents"| "children"): placedComponent | false {
+
+
+        if (option == "full") {
+            for (let i = 0; i < components.length; i++) {
+                if (components[i].id == componentId) {
+                    return components[i]
+                }
+                else if (components[i].children) {
+                    const found = findComponent(components[i].children, componentId, "full")
+                    if (found) {return found}
+                }
             }
-            else if (components[i].children) {
-                const found = findComponent(components[i].children, componentId)
-                if (found) {return found}
-            }
+            return false
         }
+
+        else if (option == "parents") {
+            for (let i = 0; i < components.length; i++) {
+                if (components[i].id == componentId) {
+                    return components[i]
+                }
+            }
+            return false
+        }
+
+        else if (option == "children") {
+            for (let i = 0; i < components.length; i++) {
+                if (components[i].children) {
+                    const found = findComponent(components[i].children, componentId, "full")
+                    if (found) {return found}
+                }
+            }
+            return false
+        }
+
         return false
+        
     }
 
     function generateId(componentType: htmlTag) {
@@ -106,7 +132,7 @@ export default function Canvas() {
         //string to return if somehow fails
         let fallBackString: string = ""
         while (running){
-            const found = findComponent(components, `${componentType}${num}`)
+            const found = findComponent(components, `${componentType}${num}`, "full")
             fallBackString += `${componentType}${num}`
             if (!found) {running = false ; return `${componentType}${num}`}
             else {num += 1}
@@ -192,7 +218,7 @@ export default function Canvas() {
 
     
     // needs to for each child figure out which goes deeper, and then add that to levels and compare them
-    function calculateLevels(components) {
+    function calculateLevels(components: placedComponent[] | any) {
         // levels start at 0
         // for each level it needs to add 1
         // it will do this recursively and compare which child returns a greater value, adding that to the current levels
