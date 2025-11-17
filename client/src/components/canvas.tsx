@@ -7,15 +7,15 @@ export default function Canvas() {
     // interface for placed component
     interface placedComponent {
         type: htmlTag;
-        id: string
+        id: string;
         selfClosing: boolean;
         acceptsChildren: boolean;
         attributes?: Record<string, string>;
         styles?: Record<string, string>;
         children?: Component[];
-        x: number
-        y: number
-        color: string
+        x: number;
+        y: number;
+        color: string;
     }
 
     // array of components on the canvas
@@ -42,14 +42,14 @@ export default function Canvas() {
                 {
                     acceptsChildren: true,
                     attributes: {},
-                    id: "head0",
+                    id: "head1",
                     selfClosing: false,
                     styles: {},
                     type: "style",
                     children: [{
                             acceptsChildren: true,
                             attributes: {},
-                            id: "head0",
+                            id: "head2",
                             selfClosing: false,
                             styles: {},
                             type: "script",
@@ -57,7 +57,7 @@ export default function Canvas() {
                               {
                                 acceptsChildren: true,
                                 attributes: {},
-                                id: "head0",
+                                id: "head3",
                                 selfClosing: false,
                                 styles: {},
                                 type: "head",
@@ -65,14 +65,14 @@ export default function Canvas() {
                             {
                                 acceptsChildren: true,
                                 attributes: {},
-                                id: "head0",
+                                id: "head4",
                                 selfClosing: false,
                                 styles: {},
                                 type: "style",
                                 children: [{
                                         acceptsChildren: true,
                                         attributes: {},
-                                        id: "head0",
+                                        id: "head5",
                                         selfClosing: false,
                                         styles: {},
                                         type: "script",
@@ -141,11 +141,17 @@ export default function Canvas() {
     };
 
     function findParent(components, componentId) {
+        // searching each component
         for (let i = 0; i < components.length; i++) {
+                    // if that component has children
                     if (components[i].children) {
+                        // search if the top level of the children has the child
                         const found = findComponent(components[i].children, componentId, "parents")
+                        // if it does have the child, return the parent
                         if (found) {return components[i]}
+                // recurisvely does the same for all child components
                 const deeper = findParent(components[i].children, componentId)
+                // returns the parent if it is deeper
                 if (deeper) {return deeper}
                     }
                 }
@@ -243,7 +249,6 @@ export default function Canvas() {
 
             // usestate function to update components array to up to date version
             setComponents(updatedComponents);
-            alert(draggedId)
             
             return;
         }
@@ -252,6 +257,20 @@ export default function Canvas() {
         else if(findComponent(components, dragId, "children")){
 
             let component = removeComponent(components, dragId)
+
+            component.x = x
+            component.y = y
+            component.color = (function chooseColor() {
+                    if (componentType == "script") {
+                        return "yellow-500"
+                    }
+                    else if (componentType == "style") {
+                        return "blue-500"
+                    }
+                    else {
+                        return "orange-500"
+                    }
+                }())
 
             setComponents(previous => [...previous, component]);
 
@@ -309,11 +328,14 @@ export default function Canvas() {
                                                     return "orange-500"
                                                 }
                                             }())} p-3 m-2 border-2 justify-center border-white text-white text-center rounded-lg shadow flex flex-col items-center `}
-                    style={{ width: `${7.5+(4*(levels-depth))}rem` }}
+                    style={{ width: `${7.5+(4*(levels-depth))}rem`, zIndex: 1000 + depth }}
                     draggable
                     onDragStart={(event) => {
-                        event.dataTransfer.setData("componentType", "html")
-                        event.dataTransfer.setData("componentID", child.id)
+                        // check if that is one dragging to stop ultra parent always takign
+                        if (event.target === event.currentTarget) {
+                            event.dataTransfer.setData("componentType", "html")
+                            event.dataTransfer.setData("componentID", child.id)
+                        }
                     } }
                 >
                     <p className="pb-3">{`<${child.type}>`}</p>
@@ -324,12 +346,14 @@ export default function Canvas() {
         return(
             <div
                 key={component.id}
-                className={`absolute bg-${component.color} p-3border-2 justify-center border-white text-white text-center rounded-lg shadow flex flex-col items-center`}
-                style={{ top: component.y, left: component.x, width: `${7.5+(4*levels)}rem` }}
+                className={`absolute bg-${component.color} p-3 border-2 justify-center border-white text-white text-center rounded-lg shadow flex flex-col items-center`}
+                style={{ top: component.y, left: component.x, width: `${7.5+(4*levels)}rem`, zIndex: 1000 }}
                 draggable
                 onDragStart={(event) => {
-                    event.dataTransfer.setData("componentType", "html")
-                    event.dataTransfer.setData("componentID", component.id)
+                    if (event.target === event.currentTarget) {
+                        event.dataTransfer.setData("componentType", "html")
+                        event.dataTransfer.setData("componentID", component.id)
+                    }
                 } }
                 onDragOver={(event) => event.preventDefault()} onDrop={handleDrop}
             >

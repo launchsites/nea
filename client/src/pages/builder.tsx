@@ -23,7 +23,7 @@ const Builder: React.FC = () => {
 
         <main className={"bg-gray-50 flex-col flex h-screen"}>
         {/*header*/}
-            <div className="flex justify-between items-center w-full absolute top-0 left-0 z-50">
+            <div className="flex justify-between items-center w-full absolute top-0 left-0 z-5000">
                 <div className={"w-1/3"}>
                     <button className={"bg-white rounded-2xl w-fit shadow my-2 h-12 mx-5 p-3 hover:bg-gray-200 transition duration-300"}>← Projects</button>
                 </div>
@@ -53,7 +53,7 @@ const Builder: React.FC = () => {
             </div>
             {componentLibraryOpen && (
 
-                <div className={"z-60 flex fixed justify-center items-center text-center mt-15 w-full"}>
+                <div className={"z-6000 flex fixed justify-center items-center text-center mt-15 w-full"}>
                     <div className={"w-1/3 shadow rounded-2xl bg-white"}><ComponentLibrary></ComponentLibrary></div>
                 </div>
             )
