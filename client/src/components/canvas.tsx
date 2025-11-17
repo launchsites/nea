@@ -140,9 +140,35 @@ export default function Canvas() {
         return fallBackString
     };
 
-    // function findAndMove(components, draggedComponentId, dropComponentId) {
-    //     // make function for finnding a component where it just returns a variable which is the object and then in find and move we make it so that dragged component it added to droppedComponent and then deleeted
-    // }
+    function findParent(components, componentId) {
+        for (let i = 0; i < components.length; i++) {
+                    if (components[i].children) {
+                        const found = findComponent(components[i].children, componentId, "parents")
+                        if (found) {return components[i]}
+                const deeper = findParent(components[i].children, componentId)
+                if (deeper) {return deeper}
+                    }
+                }
+                return false
+    }
+
+    function removeComponent(components, componentId) {
+        const parent = findParent(components, componentId);
+        if (!parent) {return null}
+
+        // find index
+        let index
+    for (let i = 0; i < parent.children.length; i++) {
+        if (parent.children[i].id == componentId) {
+            index = i
+            break
+    }
+    }
+    const component = parent.children[index]
+    parent.children.splice(index, 1);
+    return component
+    }
+
 
     function handleDrop(event: React.DragEvent) {
         //stop it dispaering
@@ -160,8 +186,46 @@ export default function Canvas() {
         console.log(x, y)
 
 
-        //check if is new being dragged in, or old being moved
-        if (event.dataTransfer.getData("componentID") !== "") {
+        //check scenarios
+
+        const dragId = event.dataTransfer.getData("componentID");
+        const dropTargetId = (event.currentTarget as HTMLElement).getAttribute("key");
+
+        //dragged from component library
+        if (dragId == ""){
+            // make new component to be added to components array
+            const newComponent: placedComponent = {
+                type: componentType,
+                // function creates a unique id which includes the type of component it is
+                id: (generateId(componentType)),
+                // getting the attributes from the component templates
+                selfClosing: componentTemplates.find(template => template.type === componentType)?.selfClosing??false,
+                acceptsChildren: componentTemplates.find(template => template.type === componentType)?.acceptsChildren??false,
+                attributes: componentTemplates.find(template => template.type === componentType)?.attributes ?? {},
+                styles: componentTemplates.find(template => template.type === componentType)?.styles ?? {},
+                // coordinates found earlier
+                x: x,
+                y: y,
+                // html / js / css coloring
+                color:
+                    (function chooseColor() {
+                    if (componentType == "script") {
+                        return "yellow-500"
+                    }
+                    else if (componentType == "style") {
+                        return "blue-500"
+                    }
+                    else {
+                        return "orange-500"
+                    }
+                }())
+            }
+            setComponents(previous => [...previous, newComponent]);
+
+        }
+
+        //dragged on canvas
+        else if(findComponent(components, dragId, "parents") && !dropTargetId){
             // get id of the moving component
             const draggedId = event.dataTransfer.getData("componentID");
 
@@ -179,39 +243,24 @@ export default function Canvas() {
 
             // usestate function to update components array to up to date version
             setComponents(updatedComponents);
-
+            alert(draggedId)
+            
             return;
         }
 
-        else {
-        // make new component to be added to components array
-        const newComponent: placedComponent = {
-            type: componentType,
-            // function creates a unique id which includes the type of component it is
-            id: (generateId(componentType)),
-            // getting the attributes from the component templates
-            selfClosing: componentTemplates.find(template => template.type === componentType)?.selfClosing??false,
-            acceptsChildren: componentTemplates.find(template => template.type === componentType)?.acceptsChildren??false,
-            attributes: componentTemplates.find(template => template.type === componentType)?.attributes ?? {},
-            styles: componentTemplates.find(template => template.type === componentType)?.styles ?? {},
-            // coordinates found earlier
-            x: x,
-            y: y,
-            // html / js / css coloring
-            color:
-                (function chooseColor() {
-                if (componentType == "script") {
-                    return "yellow-500"
-                }
-                else if (componentType == "style") {
-                    return "blue-500"
-                }
-                else {
-                    return "orange-500"
-                }
-            }())
+        // child dragged to canvas
+        else if(findComponent(components, dragId, "children")){
+
+            let component = removeComponent(components, dragId)
+
+            setComponents(previous => [...previous, component]);
+
         }
-        setComponents(previous => [...previous, newComponent]);
+
+        //component becomes child
+        else if(findComponent(components, dragId, "parents") && dropTargetId){
+            
+        
         }
     }
 
@@ -259,7 +308,7 @@ export default function Canvas() {
                                                 else {
                                                     return "orange-500"
                                                 }
-                                            }())} p-3 m-2 border-2 justify-center border-white text-white text-center rounded-lg shadow flex flex-col items-center`}
+                                            }())} p-3 m-2 border-2 justify-center border-white text-white text-center rounded-lg shadow flex flex-col items-center `}
                     style={{ width: `${7.5+(4*(levels-depth))}rem` }}
                     draggable
                     onDragStart={(event) => {
