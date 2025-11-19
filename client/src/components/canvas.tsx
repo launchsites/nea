@@ -20,69 +20,6 @@ export default function Canvas() {
 
     // array of components on the canvas
     const [components, setComponents] = useState<placedComponent[]>([
-        {
-            acceptsChildren: true,
-            attributes: {},
-            color: "orange-500",
-            id: "html0",
-            selfClosing: false,
-            styles: {},
-            type: "html",
-            x: 500,
-            y: 500,
-            children: [
-                  {
-                    acceptsChildren: true,
-                    attributes: {},
-                    id: "head0",
-                    selfClosing: false,
-                    styles: {},
-                    type: "head",
-                  },
-                {
-                    acceptsChildren: true,
-                    attributes: {},
-                    id: "head1",
-                    selfClosing: false,
-                    styles: {},
-                    type: "style",
-                    children: [{
-                            acceptsChildren: true,
-                            attributes: {},
-                            id: "head2",
-                            selfClosing: false,
-                            styles: {},
-                            type: "script",
-                        children: [
-                              {
-                                acceptsChildren: true,
-                                attributes: {},
-                                id: "head3",
-                                selfClosing: false,
-                                styles: {},
-                                type: "head",
-                              },
-                            {
-                                acceptsChildren: true,
-                                attributes: {},
-                                id: "head4",
-                                selfClosing: false,
-                                styles: {},
-                                type: "style",
-                                children: [{
-                                        acceptsChildren: true,
-                                        attributes: {},
-                                        id: "head5",
-                                        selfClosing: false,
-                                        styles: {},
-                                        type: "script",
-                                      }, ]
-                              }
-                            ]
-                          }, ]
-                  }
-                ]
-          },
     ]);
 
     function findComponent(components: placedComponent[] | any, componentId: string, option: "full" | "parents"| "children"): placedComponent | false {
@@ -195,7 +132,7 @@ export default function Canvas() {
         //check scenarios
 
         const dragId = event.dataTransfer.getData("componentID");
-        const dropTargetId = (event.currentTarget as HTMLElement).getAttribute("key");
+        const dropTargetId = (event.target as HTMLElement).id;
 
         //dragged from component library
         if (dragId == ""){
@@ -254,7 +191,7 @@ export default function Canvas() {
         }
 
         // child dragged to canvas
-        else if(findComponent(components, dragId, "children")){
+        else if(findComponent(components, dragId, "children") && !dropTargetId){
 
             let component = removeComponent(components, dragId)
 
@@ -275,9 +212,43 @@ export default function Canvas() {
             setComponents(previous => [...previous, component]);
 
         }
-
         //component becomes child
-        else if(findComponent(components, dragId, "parents") && dropTargetId){
+        else if(findComponent(components, dragId, "full") && dropTargetId){
+
+
+            // alert(`dragged element: ${dragId}\nonto: ${dropTargetId}`)
+
+            
+            let tempComponents = structuredClone(components)
+
+
+            const hasParent = findParent(components, dragId)
+
+            let component: placedComponent | null = null
+
+            if (hasParent) {
+                component = removeComponent(tempComponents, dragId)
+            }
+            else {
+                component = findComponent(tempComponents, dragId, "full")
+                for (let i = 0; i < tempComponents.length; i++) {
+                    if (tempComponents[i].id == dragId) {
+                        tempComponents.splice(i, 1)
+                    }
+                }
+            }
+
+            delete component.x
+            delete component.y
+
+
+            let newParent = findComponent(tempComponents, dropTargetId, "full")
+
+            if (newParent.children) {newParent.children.push(component)}
+            else {newParent.children = [component]}
+
+            setComponents(tempComponents)
+            
             
         
         }
@@ -317,6 +288,7 @@ export default function Canvas() {
             return(
                 <div
                     key={child.id}
+                    id={child.id}
                     className={`relative bg-${(function chooseColor() {
                                                 if (child.type == "script") {
                                                     return "yellow-500"
@@ -346,6 +318,7 @@ export default function Canvas() {
         return(
             <div
                 key={component.id}
+                id={component.id}
                 className={`absolute bg-${component.color} p-3 border-2 justify-center border-white text-white text-center rounded-lg shadow flex flex-col items-center`}
                 style={{ top: component.y, left: component.x, width: `${7.5+(4*levels)}rem`, zIndex: 1000 }}
                 draggable
