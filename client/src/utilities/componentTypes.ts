@@ -38,5 +38,6 @@ export interface Component {
     attributes?: Record<string, string>;
     styles?: Record<string, string>;
     children?: Component[];
+    class?: string;
 
 }

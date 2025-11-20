@@ -10,6 +10,26 @@ import CodeDisplay from "../components/codeDisplay.tsx";
 
 const Builder: React.FC = () => {
 
+    // interface for placed component
+    interface placedComponent {
+        type: htmlTag;
+        id: string;
+        selfClosing: boolean;
+        acceptsChildren: boolean;
+        attributes?: Record<string, string>;
+        styles?: Record<string, string>;
+        children?: Component[];
+        x: number;
+        y: number;
+        color: string;
+        class?: string;
+        contents?: string;
+    }
+
+    // array of components on the canvas
+    const [components, setComponents] = useState<placedComponent[]>([
+    ]);
+
     const iconGrey: string = "#4B4B4B"
     const iconBlack: string = "#000"
 
@@ -64,7 +84,7 @@ const Builder: React.FC = () => {
                 : null
             }
             {canvasOpen && (
-                <Canvas></Canvas>
+                <Canvas components={components} setComponents={setComponents}></Canvas>
             )}
             {codeDisplayOpen && (
                 <CodeDisplay></CodeDisplay>

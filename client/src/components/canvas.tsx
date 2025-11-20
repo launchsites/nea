@@ -2,7 +2,7 @@ import type {Component, htmlTag} from "../utilities/componentTypes.ts";
 import {componentTemplates} from "../utilities/componentTemplates.ts";
 import {useState} from "react";
 
-export default function Canvas() {
+export default function Canvas({components, setComponents}) {
 
     // interface for placed component
     interface placedComponent {
@@ -16,11 +16,10 @@ export default function Canvas() {
         x: number;
         y: number;
         color: string;
+        class?: string;
+        contents?: string;
     }
 
-    // array of components on the canvas
-    const [components, setComponents] = useState<placedComponent[]>([
-    ]);
 
     function findComponent(components: placedComponent[] | any, componentId: string, option: "full" | "parents"| "children"): placedComponent | false {
 
@@ -112,6 +111,38 @@ export default function Canvas() {
     return component
     }
 
+
+    function editAttributes(components: placedComponent[], componentId: string, option: "attributes" | "styles"| "class" | "contents", change: any){
+
+        let tempComponents = structuredClone(components)
+
+        let component = findComponent(tempComponents, componentId, "full")
+
+        if (option == "attributes"){
+
+            component.attributes = change
+
+    };
+        if (option == "styles"){
+
+            component.styles = change
+
+    };
+        if (option == "class"){
+
+            component.class = change
+
+    };
+        if (option == "contents"){
+
+            component.contents = change
+
+    };
+
+        setComponents(tempComponents)
+    };
+
+    
 
     function handleDrop(event: React.DragEvent) {
         //stop it dispaering
@@ -299,7 +330,7 @@ export default function Canvas() {
                                                 else {
                                                     return "orange-500"
                                                 }
-                                            }())} p-3 m-2 border-2 justify-center border-white text-white text-center rounded-lg shadow flex flex-col items-center `}
+                                            }())} p-3 m-2 hover:bg-yellow-300 border-2 justify-center border-white text-white text-center rounded-lg shadow flex flex-col items-center `}
                     style={{ width: `${7.5+(4*(levels-depth))}rem`, zIndex: 1000 + depth }}
                     draggable
                     onDragStart={(event) => {
