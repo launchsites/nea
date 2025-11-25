@@ -94,21 +94,21 @@ export default function Canvas({components, setComponents}) {
                 return false
     }
 
-    function removeComponent(components, componentId) {
+    function removeComponent(components: placedComponent[], componentId: string) {
         const parent = findParent(components, componentId);
         if (!parent) {return null}
 
         // find index
-        let index
-    for (let i = 0; i < parent.children.length; i++) {
-        if (parent.children[i].id == componentId) {
-            index = i
-            break
-    }
-    }
-    const component = parent.children[index]
-    parent.children.splice(index, 1);
-    return component
+        let index: number
+        for (let i = 0; i < parent.children.length; i++) {
+            if (parent.children[i].id == componentId) {
+                index = i
+                break
+            }
+        }
+        const component = parent.children[index]
+        parent.children.splice(index, 1);
+        return component
     }
 
 
@@ -194,7 +194,7 @@ export default function Canvas({components, setComponents}) {
                     }
                 }())
             }
-            setComponents(previous => [...previous, newComponent]);
+            setComponents((previous: placedComponent[]) => [...previous, newComponent]);
 
         }
 
@@ -240,7 +240,7 @@ export default function Canvas({components, setComponents}) {
                     }
                 }())
 
-            setComponents(previous => [...previous, component]);
+            setComponents((previous: placedComponent[]) => [...previous, component]);
 
         }
         //component becomes child
@@ -285,6 +285,26 @@ export default function Canvas({components, setComponents}) {
         }
     }
 
+    // modification window
+
+    function modificationWindow(components: placedComponent[], componentId: string) {
+        let tempComponents = structuredClone(components);
+        let tempComponent = findComponent(tempComponents, componentId, "full");
+
+        return(
+
+            //wrapper
+            <div className="bg-white flex">
+                {/* menu */}
+                <div className="w-1/4">hi</div>
+
+                {/* change */}
+                <div className="w-3/4">hi</div>
+            </div>
+        );
+        
+    };
+
 
     
     // needs to for each child figure out which goes deeper, and then add that to levels and compare them
@@ -309,6 +329,7 @@ export default function Canvas({components, setComponents}) {
 
     const levels = calculateLevels(components)
 
+    const [openPanel, setOpenPanel] = useState("none");
     
     function renderComponent(component: placedComponent, levels: number) {
         let depth = 0
@@ -330,7 +351,7 @@ export default function Canvas({components, setComponents}) {
                                                 else {
                                                     return "orange-500"
                                                 }
-                                            }())} p-3 m-2 hover:bg-yellow-300 border-2 justify-center border-white text-white text-center rounded-lg shadow flex flex-col items-center `}
+                                            }())} p-3 m-2 border-2 justify-center border-white text-white text-center rounded-lg shadow flex flex-col items-center`}
                     style={{ width: `${7.5+(4*(levels-depth))}rem`, zIndex: 1000 + depth }}
                     draggable
                     onDragStart={(event) => {
@@ -341,8 +362,15 @@ export default function Canvas({components, setComponents}) {
                         }
                     } }
                 >
-                    <p className="pb-3">{`<${child.type}>`}</p>
-                    {child.children?.map((child) => renderChild(child as placedComponent, depth, levels))}
+                    <button onClick={() => setOpenPanel(openPanel == "none" ? `${child.id}` : "none")} className="pb-3">{`<${child.type}>`}</button>
+                    {
+                        openPanel != `${child.id}` ?
+                        
+                        child.children?.map((child) => renderChild(child as placedComponent, depth, levels))
+
+                        : modificationWindow(components, child.id)
+                    
+                    }
                 </div>
             )
         }
@@ -361,8 +389,15 @@ export default function Canvas({components, setComponents}) {
                 } }
                 onDragOver={(event) => event.preventDefault()} onDrop={handleDrop}
             >
-                <p className="pb-3">{`<${component.type}>`}</p>
-                {component.children?.map((child) => renderChild(child as placedComponent, depth, levels))}
+                <button onClick={() => setOpenPanel(openPanel == "none" ? `${component.id}` : "none")} className="pb-3">{`<${component.type}>`}</button>
+                {
+                    openPanel != `${component.id}` ?
+                    
+                    component.children?.map((child) => renderChild(child as placedComponent, depth, levels))
+
+                    : modificationWindow(components, component.id)
+                
+                }
             </div>
         )
     }
@@ -370,7 +405,7 @@ export default function Canvas({components, setComponents}) {
 
     return(
         <main onDragOver={(event) => event.preventDefault()} onDrop={handleDrop} className={"flex-1 relative bg-[radial-gradient(#d1d5db_1.5px,transparent_0)] bg-[length:40px_40px]"}>
-            {components.map((component) => (
+            {components.map((component: placedComponent) => (
                 
             renderComponent(component, levels)
         

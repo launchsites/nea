@@ -3,6 +3,7 @@ import {useState} from 'react';
 import Canvas from "../components/canvas.tsx";
 import ComponentLibrary from "../components/componentLibrary.tsx";
 import CodeDisplay from "../components/codeDisplay.tsx";
+import type {Component, htmlTag} from "../utilities/componentTypes.ts";
 // import LivePreview from "../components/livePreview.tsx";
 
 //import {Link} from "react-router-dom";
