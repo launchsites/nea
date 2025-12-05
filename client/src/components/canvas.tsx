@@ -287,19 +287,80 @@ export default function Canvas({components, setComponents}) {
 
     // modification window
 
-    function modificationWindow(components: placedComponent[], componentId: string) {
+    function ModificationWindow({components, componentId}) {
         let tempComponents = structuredClone(components);
         let tempComponent = findComponent(tempComponents, componentId, "full");
 
+        const [openSection, setOpenSection] = useState("attributes");
+
+        const activeSectionClass: string = "bg-[#4B4B4B] text-white"
+        const notActiveSectionClass: string = "bg-grey-300"
+
+
+        function attributesWindow(tempComponents, tempComponent: placedComponent){
+
+            let attributes = tempComponent.attributes
+            // let attributes = { attribute1: "1", attribute2: "2"}
+            let keys = Object.keys(attributes)
+
+            function newAttribute(attributes){
+                let key = prompt("Enter the key of the attribute")
+                let value = prompt("Enter the value of the attribute")
+
+                attributes = {...attributes, [key]: value}
+                editAttributes(tempComponents, tempComponent.id, "attributes", attributes)
+            }
+
+            function removeAttribute(attributes) {
+                let key = prompt("Enter the key of the attribute")
+                let confirm = prompt("Type CONFIRM in block capitals")
+                if (confirm = "CONFIRM") {
+                    let temp = attributes
+                    delete temp[key]
+                    editAttributes(tempComponents, tempComponent.id, "attributes", temp)
+                }
+            }
+            
+            
+            return(
+                <div>
+                    <div className="border-[#4b4b4b] border-1 rounded-xl p-3">
+                <p>{keys.map((key)=>{
+                    return (<div className="flex gap-10"><p>{key}</p> = <p>{attributes[key]}</p></div>)
+                })}</p>
+                        </div>
+
+                    <button className="mt-2 text-white p-3 mr-3 hover:bg-gray-600 transition bg-[#4B4B4B] rounded-xl" onClick={() => newAttribute(attributes)}>Add Attribute</button>
+                    <button className="mt-2   text-white p-3 hover:bg-white hover:text-red-500 transition bg-red-500 rounded-xl" onClick={() => removeAttribute(attributes)}>Remove Attribute</button>
+                </div>
+                
+            )
+        };
+        
         return(
 
             //wrapper
-            <div className="bg-white flex">
+            <div className="w-full text-black fixed top-0 left-0 h-screen justify-center items-center flex">
+                <div className="bg-gray-200 rounded-l p-4">
+                <div className="relative mb-7">
+                    <button className="hover:text-red-600 top-0 right-0 absolute" onClick={()=> setOpenPanel("none")}>X</button>
+                </div>
                 {/* menu */}
-                <div className="w-1/4">hi</div>
+                <div className="flex overflow-x-auto min-h-[4vh]">
+                    <button onClick={() => setOpenSection("attributes")} className={`p-1 rounded-xl text-xs ${openSection == "attributes" ? activeSectionClass : notActiveSectionClass}`}>Attributes</button>
+                    <button onClick={() => setOpenSection("classes")} className={`p-1 rounded-xl text-xs ${openSection == "classes" ? activeSectionClass : notActiveSectionClass}`}>Classes</button>
+                    <button onClick={() => setOpenSection("content")} className={`p-1 rounded-xl text-xs ${openSection == "content" ? activeSectionClass : notActiveSectionClass}`}>Content</button>
+                    <button onClick={() => setOpenSection("styles")} className={`p-1 rounded-xl text-xs ${openSection == "styles" ? activeSectionClass : notActiveSectionClass}`}>Styles</button>
+                </div>
 
                 {/* change */}
-                <div className="w-3/4">hi</div>
+                <div className="rounded-l bg-white my-3"></div>
+
+                    {openSection == "attributes" ? attributesWindow(tempComponents, tempComponent) : null}
+                    {openSection == "classes" ? "classes" : null}
+                    {openSection == "content" ? "content" : null}
+                    {openSection == "styles" ? "styles" : null}
+                </div>
             </div>
         );
         
@@ -362,13 +423,14 @@ export default function Canvas({components, setComponents}) {
                         }
                     } }
                 >
-                    <button onClick={() => setOpenPanel(openPanel == "none" ? `${child.id}` : "none")} className="pb-3">{`<${child.type}>`}</button>
+                    <button onClick={() => setOpenPanel(openPanel == "none" ? `${child.id}` : "none")} className="pb-3 hover:text-black">{`<${child.type}>`}</button>
                     {
-                        openPanel != `${child.id}` ?
+                        child.children?.map((child) => renderChild(child as placedComponent, depth, levels))}
+                    {openPanel != `${child.id}` ?
                         
-                        child.children?.map((child) => renderChild(child as placedComponent, depth, levels))
+                        null
 
-                        : modificationWindow(components, child.id)
+                        : <ModificationWindow components={components} componentId={child.id}/>
                     
                     }
                 </div>
@@ -389,13 +451,13 @@ export default function Canvas({components, setComponents}) {
                 } }
                 onDragOver={(event) => event.preventDefault()} onDrop={handleDrop}
             >
-                <button onClick={() => setOpenPanel(openPanel == "none" ? `${component.id}` : "none")} className="pb-3">{`<${component.type}>`}</button>
-                {
-                    openPanel != `${component.id}` ?
+                <button onClick={() => setOpenPanel(openPanel == "none" ? `${component.id}` : "none")} className="hover:text-black pb-3">{`<${component.type}>`}</button>
+                { component.children?.map((child) => renderChild(child as placedComponent, depth, levels))}
+                {openPanel != `${component.id}` ?
                     
-                    component.children?.map((child) => renderChild(child as placedComponent, depth, levels))
+                   null
 
-                    : modificationWindow(components, component.id)
+                    : <ModificationWindow components={components} componentId={component.id}/>
                 
                 }
             </div>

@@ -6,7 +6,7 @@ export const componentTemplates: Component[] = [
         type: "a",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { href: "", class: "" },
+        attributes: {/* href: "", class: "" */},
         styles: {},
     },
     {
@@ -14,7 +14,7 @@ export const componentTemplates: Component[] = [
         type: "article",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { class: "" },
+        attributes: {/* class: "" */},
         styles: {},
     },
     {
@@ -22,7 +22,7 @@ export const componentTemplates: Component[] = [
         type: "body",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: {},
+        attributes: {/**/},
         styles: {},
     },
     {
@@ -30,7 +30,7 @@ export const componentTemplates: Component[] = [
         type: "br",
         selfClosing: true,
         acceptsChildren: false,
-        attributes: {},
+        attributes: {/**/},
         styles: {},
     },
     {
@@ -38,7 +38,7 @@ export const componentTemplates: Component[] = [
         type: "button",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { type: "", class: "" },
+        attributes: {/* type: "", class: "" */},
         styles: {},
     },
     {
@@ -46,7 +46,7 @@ export const componentTemplates: Component[] = [
         type: "div",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { class: "" },
+        attributes: {/* class: "" */},
         styles: {},
     },
     {
@@ -54,7 +54,7 @@ export const componentTemplates: Component[] = [
         type: "footer",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { class: "" },
+        attributes: {/* class: "" */},
         styles: {},
     },
     {
@@ -62,7 +62,7 @@ export const componentTemplates: Component[] = [
         type: "form",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { class: "" },
+        attributes: {/* class: "" */},
         styles: {},
     },
     {
@@ -70,7 +70,7 @@ export const componentTemplates: Component[] = [
         type: "h1",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { class: "" },
+        attributes: {/* class: "" */},
         styles: {},
     },
     {
@@ -78,7 +78,7 @@ export const componentTemplates: Component[] = [
         type: "h2",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { class: "" },
+        attributes: {/* class: "" */},
         styles: {},
     },
     {
@@ -86,7 +86,7 @@ export const componentTemplates: Component[] = [
         type: "h3",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { class: "" },
+        attributes: {/* class: "" */},
         styles: {},
     },
     {
@@ -94,7 +94,7 @@ export const componentTemplates: Component[] = [
         type: "h4",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { class: "" },
+        attributes: {/* class: "" */},
         styles: {},
     },
     {
@@ -102,7 +102,7 @@ export const componentTemplates: Component[] = [
         type: "h5",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { class: "" },
+        attributes: {/* class: "" */},
         styles: {},
     },
     {
@@ -110,7 +110,7 @@ export const componentTemplates: Component[] = [
         type: "h6",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { class: "" },
+        attributes: {/* class: "" */},
         styles: {},
     },
     {
@@ -118,7 +118,7 @@ export const componentTemplates: Component[] = [
         type: "head",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: {},
+        attributes: {/**/},
         styles: {},
     },
     {
@@ -126,7 +126,7 @@ export const componentTemplates: Component[] = [
         type: "header",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { class: "" },
+        attributes: {/* class: "" */},
         styles: {},
     },
     {
@@ -134,7 +134,7 @@ export const componentTemplates: Component[] = [
         type: "html",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: {},
+        attributes: {/**/},
         styles: {},
     },
     {
@@ -142,7 +142,7 @@ export const componentTemplates: Component[] = [
         type: "img",
         selfClosing: true,
         acceptsChildren: false,
-        attributes: { src: "", alt: "", class: "" },
+        attributes: {/* src: "", alt: "", class: "" */},
         styles: {},
     },
     {
@@ -150,7 +150,7 @@ export const componentTemplates: Component[] = [
         type: "input",
         selfClosing: true,
         acceptsChildren: false,
-        attributes: { type: "", placeholder: "", class: "" },
+        attributes: {/* type: "", placeholder: "", class: "" */},
         styles: {},
     },
     {
@@ -158,7 +158,7 @@ export const componentTemplates: Component[] = [
         type: "li",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { class: "" },
+        attributes: {/* class: "" */},
         styles: {},
     },
     {
@@ -166,7 +166,7 @@ export const componentTemplates: Component[] = [
         type: "nav",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { class: "" },
+        attributes: {/* class: "" */},
         styles: {},
     },
     {
@@ -174,7 +174,7 @@ export const componentTemplates: Component[] = [
         type: "ol",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { class: "" },
+        attributes: {/* class: "" */},
         styles: {},
     },
     {
@@ -182,7 +182,7 @@ export const componentTemplates: Component[] = [
         type: "option",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { value: "", class: "" },
+        attributes: {/* value: "", class: "" */},
         styles: {},
     },
     {
@@ -190,7 +190,7 @@ export const componentTemplates: Component[] = [
         type: "p",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { class: "" },
+        attributes: {/* class: "" */},
         styles: {},
     },
     {
@@ -198,7 +198,7 @@ export const componentTemplates: Component[] = [
         type: "script",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { src: "" },
+        attributes: {/* src: "" */},
         styles: {},
     },
     {
@@ -206,7 +206,7 @@ export const componentTemplates: Component[] = [
         type: "section",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { class: "" },
+        attributes: {/* class: "" */},
         styles: {},
     },
     {
@@ -214,7 +214,7 @@ export const componentTemplates: Component[] = [
         type: "span",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { class: "" },
+        attributes: {/* class: "" */},
         styles: {},
     },
     {
@@ -222,7 +222,7 @@ export const componentTemplates: Component[] = [
         type: "style",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: {},
+        attributes: {/**/},
         styles: {},
     },
     {
@@ -230,7 +230,7 @@ export const componentTemplates: Component[] = [
         type: "title",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: {},
+        attributes: {/**/},
         styles: {},
     },
     {
@@ -238,7 +238,7 @@ export const componentTemplates: Component[] = [
         type: "ul",
         selfClosing: false,
         acceptsChildren: true,
-        attributes: { class: "" },
+        attributes: {/* class: "" */},
         styles: {},
     }
 ];
