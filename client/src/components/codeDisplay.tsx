@@ -64,11 +64,11 @@ export default function CodeDisplay({components}) {
         
     for (let i = 0; i < components.length; i++) {
         
-        rawCode += `${componentsToCode(components[0], components)}`
+        rawCode += `${componentsToCode(components[i], components)}`
 
     }
 
-    function insertLines(rawCode){
+    function insertLines(rawCode): [string, number]{
         let lineCount = 0
         let start = 0
         let end: number
@@ -95,15 +95,58 @@ export default function CodeDisplay({components}) {
         return temp
     }
 
+    function indentCode(linedCode: string) {
+
+        // measure of how indented we are
+        let indent = 0
+        // stored string of a tab
+        let space = "    "
+        // string to output
+        let output = ``
+        // defining start index
+        let start = 0
+
+        
+        for (let i = 0; i < linedCode.length; i++) {
+            // case for opening tag
+            if (linedCode[i] == "<" && linedCode[i+1] != "/") {
+                output += linedCode.slice(start, i)
+                output += space.repeat(indent)
+                indent += 1
+                start = i
+            }
+            // case for closing tag
+            else if(linedCode[i] == "<" && linedCode[i+1] == "/"){
+                output += linedCode.slice(start, i)
+                indent -= 1
+                output += space.repeat(indent)
+                start = i
+            }
+
+            // case for self closing tag
+            else if(linedCode[i] == "/" && linedCode[i+ 1] == ">") {
+                indent -= 1
+            }
+
+            // never lose the last tag
+            if (linedCode.slice(start, i) == linedCode.slice(start, -1)) {
+                output += linedCode.slice(start, i)
+            }
+        }
+        return output
+    }
+
+    let indentedCode = indentCode(linedCode)
+    
     return(
         <main className={"py-16 bg-gray-200 h-screen"}>
             
-            <div className={"flex m-6 bg-gray-700 rounded-2xl h-full text-gray-300"}>
+            <div className={"flex m-6 text-lg bg-gray-700 rounded-2xl h-full text-gray-300 overflow-y-auto"}>
                 <div className={"w-30 rounded-l-2xl justify-center text-right p-3"}>
                     <pre>{numberLines(lineCount)}</pre>
                 </div>
-                <div className={"w-full overflow-x-auto rounded-r-2xl text-left p-3 px-10"}>
-                    <pre>{components.length > 0 ? linedCode : null}</pre>
+                <div className={"w-full rounded-r-2xl text-left p-3 px-10"}>
+                    <pre>{components.length > 0 ? indentedCode : null}</pre>
                 </div>
             </div>
             <div></div>
