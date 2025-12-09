@@ -43,7 +43,7 @@ export default function CodeDisplay({components}) {
         exportString += ">"
 
         if (component.contents) {
-            exportString += `${component.contents} `
+            exportString += `${component.contents} \n`
         }
 
         if (component.children) {
@@ -68,28 +68,32 @@ export default function CodeDisplay({components}) {
 
     }
 
-    function insertLines(rawCode): [string, number]{
-        let lineCount = 0
+    function insertLines(rawCode){
         let start = 0
         let end: number
         let linedCode = ""
         for (let i = 0; i < rawCode.length; i++) {
             if (rawCode[i] == ">"){
-                lineCount += 1
                 end = i + 1
                 linedCode += `${rawCode.slice(start, end)}\n`
                 start = i + 1
             }
         }
         
-        return [linedCode, lineCount]
+        return linedCode
     };
 
-    let [linedCode, lineCount] = insertLines(rawCode)
+    let linedCode = insertLines(rawCode)
 
-    function numberLines(lineCount){
+    function numberLines(linedCode){
         let temp = ""
-        for (let i = 0; i < lineCount; i++) {
+        let count = 0
+        for (let i = 0; i < linedCode.length; i++) {
+            if (linedCode[i] == "\n") {
+                count += 1
+            }
+        }
+        for (let i = 0; i < count; i++) {
             temp += `${i+1}\n`
         }
         return temp
@@ -128,6 +132,8 @@ export default function CodeDisplay({components}) {
                 indent -= 1
             }
 
+            
+
             // never lose the last tag
             if (linedCode.slice(start, i) == linedCode.slice(start, -1)) {
                 output += linedCode.slice(start, i)
@@ -143,7 +149,7 @@ export default function CodeDisplay({components}) {
             
             <div className={"flex m-6 text-lg bg-gray-700 rounded-2xl h-full text-gray-300 overflow-y-auto"}>
                 <div className={"w-30 rounded-l-2xl justify-center text-right p-3"}>
-                    <pre>{numberLines(lineCount)}</pre>
+                    <pre>{numberLines(linedCode)}</pre>
                 </div>
                 <div className={"w-full rounded-r-2xl text-left p-3 px-10"}>
                     <pre>{components.length > 0 ? indentedCode : null}</pre>

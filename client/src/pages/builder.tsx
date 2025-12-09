@@ -4,7 +4,7 @@ import Canvas from "../components/canvas.tsx";
 import ComponentLibrary from "../components/componentLibrary.tsx";
 import CodeDisplay from "../components/codeDisplay.tsx";
 import type {Component, htmlTag} from "../utilities/componentTypes.ts";
-// import LivePreview from "../components/livePreview.tsx";
+import LivePreview from "../components/livePreview.tsx";
 
 //import {Link} from "react-router-dom";
 
@@ -96,6 +96,9 @@ const Builder: React.FC = () => {
                 ? <Canvas components={components} setComponents={setComponents}></Canvas>
                 : null
             }
+            {livePreviewOpen && (
+                <LivePreview components={components}></LivePreview>
+            )}
         </main>
 
     )
