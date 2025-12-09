@@ -88,7 +88,7 @@ const Builder: React.FC = () => {
                 <Canvas components={components} setComponents={setComponents}></Canvas>
             )}
             {codeDisplayOpen && (
-                <CodeDisplay></CodeDisplay>
+                <CodeDisplay components={components}></CodeDisplay>
             )}
         </main>
 

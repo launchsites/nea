@@ -296,7 +296,7 @@ export default function Canvas({components, setComponents}) {
         const activeSectionClass: string = "bg-[#4B4B4B] text-white"
         const notActiveSectionClass: string = "bg-grey-300"
 
-
+        
         function attributesWindow(tempComponents, tempComponent: placedComponent){
 
             let attributes = tempComponent.attributes
@@ -336,6 +336,95 @@ export default function Canvas({components, setComponents}) {
                 
             )
         };
+
+        function classWindow(tempComponents, tempComponent: placedComponent){
+
+            let classes = tempComponent.class
+            // let attributes = { attribute1: "1", attribute2: "2"}
+
+            function newClass(classes){
+                let newClass = prompt("Enter the class")
+
+                classes = `${newClass}`
+                editAttributes(tempComponents, tempComponent.id, "class", classes)
+            }
+
+
+            return(
+                <div>
+                    <div className="border-[#4b4b4b] border-1 rounded-xl p-3">
+                <p><div className="flex gap-10"><p>{classes}</p></div></p>
+                        </div>
+
+                    <button className="mt-2 text-white p-3 hover:bg-gray-600 transition bg-[#4B4B4B] rounded-xl" onClick={() => newClass(classes)}>Rewrite Class</button>
+                </div>
+
+            )
+        };
+
+        function contentsWindow(tempComponents, tempComponent: placedComponent){
+
+            let contents = tempComponent.contents
+            // let attributes = { attribute1: "1", attribute2: "2"}
+
+            function newContents(contents){
+                let newContents = prompt("Enter the class")
+
+                contents = `${newContents}`
+                editAttributes(tempComponents, tempComponent.id, "contents", contents)
+            }
+
+
+            return(
+                <div>
+                    <div className="border-[#4b4b4b] border-1 rounded-xl p-3">
+                <p><div className="flex gap-10"><p>{contents}</p></div></p>
+                        </div>
+
+                    <button className="mt-2 text-white p-3 hover:bg-gray-600 transition bg-[#4B4B4B] rounded-xl" onClick={() => newContents(contents)}>Rewrite Contents</button>
+                </div>
+
+            )
+        };
+
+        function stylesWindow(tempComponents, tempComponent: placedComponent){
+
+            let styles = tempComponent.styles
+            let keys = Object.keys(styles)
+
+            function newStyle(styles){
+                let key = prompt("Enter the key of the style")
+                let value = prompt("Enter the value of the style")
+
+                styles = {...styles, [key]: value}
+                editAttributes(tempComponents, tempComponent.id, "styles", styles)
+            }
+
+            function removeStyle(styles) {
+                let key = prompt("Enter the key of the style")
+                let confirm = prompt("Type CONFIRM in block capitals")
+                if (confirm = "CONFIRM") {
+                    let temp = styles
+                    delete temp[key]
+                    editAttributes(tempComponents, tempComponent.id, "styles", temp)
+                }
+            }
+
+
+            return(
+                <div>
+                    <div className="border-[#4b4b4b] border-1 rounded-xl p-3">
+                <p>{keys.map((key)=>{
+                    return (<div className="flex gap-10"><p>{key}</p> = <p>{styles[key]}</p></div>)
+                })}</p>
+                        </div>
+
+                    <button className="mt-2 text-white p-3 mr-3 hover:bg-gray-600 transition bg-[#4B4B4B] rounded-xl" onClick={() => newStyle(styles)}>Add Styles</button>
+                    <button className="mt-2   text-white p-3 hover:bg-white hover:text-red-500 transition bg-red-500 rounded-xl" onClick={() => removeStyle(styles)}>Remove Styles</button>
+                </div>
+
+            )
+        };
         
         return(
 
@@ -357,9 +446,9 @@ export default function Canvas({components, setComponents}) {
                 <div className="rounded-l bg-white my-3"></div>
 
                     {openSection == "attributes" ? attributesWindow(tempComponents, tempComponent) : null}
-                    {openSection == "classes" ? "classes" : null}
-                    {openSection == "content" ? "content" : null}
-                    {openSection == "styles" ? "styles" : null}
+                    {openSection == "classes" ? classWindow(tempComponents, tempComponent) : null}
+                    {openSection == "content" ? contentsWindow(tempComponents, tempComponent) : null}
+                    {openSection == "styles" ? stylesWindow(tempComponents, tempComponent) : null}
                 </div>
             </div>
         );
