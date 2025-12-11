@@ -5,11 +5,15 @@ import ComponentLibrary from "../components/componentLibrary.tsx";
 import CodeDisplay from "../components/codeDisplay.tsx";
 import type {Component, htmlTag} from "../utilities/componentTypes.ts";
 import LivePreview from "../components/livePreview.tsx";
+import {Navigate, useNavigate} from "react-router-dom";
 
 //import {Link} from "react-router-dom";
 
 
+
 const Builder: React.FC = () => {
+
+    let navigate = useNavigate()
 
     // interface for placed component
     interface placedComponent {
@@ -41,6 +45,21 @@ const Builder: React.FC = () => {
     const [livePreviewOpen, setLivePreviewOpen] = useState(false);
 
     let [userStart, setUserStart] = useState(true)
+
+    const [lastSave, setLastSave] = useState(components)
+    
+    function saveComponents(components: placedComponent[]) {
+        // + add to database
+        setLastSave(components)
+    }
+
+    function goToProjects(components: placedComponent[], lastSave: placedComponent[]) {
+        if (components === lastSave) {
+            navigate("/projects")
+        }
+        else {alert("You have unsaved changes, please click the save button before leaving the project.")}
+    }
+
     
     return (
 
@@ -48,7 +67,7 @@ const Builder: React.FC = () => {
         {/*header*/}
             <div className="flex justify-between items-center w-full absolute top-0 left-0 z-5000">
                 <div className={"w-1/3"}>
-                    <button className={"bg-white rounded-2xl w-fit shadow my-2 h-12 mx-5 p-3 hover:bg-gray-200 transition duration-300"}>← Projects</button>
+                    <button className={"bg-white rounded-2xl w-fit shadow my-2 h-12 mx-5 p-3 hover:bg-gray-200 transition duration-300"} onClick={() => goToProjects(components, lastSave)}>← Projects</button>
                 </div>
                 <div className={"my-2 bg-white p-2 shadow rounded-2xl"}>
                     <div className={"flex w-fit justify-between space-x-6 text-center "}>
@@ -71,7 +90,7 @@ const Builder: React.FC = () => {
 
                 </div>
                 <div className={"w-1/3 text-right"}>
-                    <button className={"bg-white rounded-2xl w-fit shadow my-2 h-12 mx-5 p-3 hover:bg-gray-200 transition duration-300"}>Save</button>
+                    <button className={"bg-white rounded-2xl w-fit shadow my-2 h-12 mx-5 p-3 hover:bg-gray-200 transition duration-300"} onClick={() => saveComponents(components)}>Save</button>
                 </div>
             </div>
             {componentLibraryOpen && (

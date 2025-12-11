@@ -68,7 +68,7 @@ export default function LivePreview({components}) {
     return(
         <main className={"py-16 bg-gray-200 h-screen"}>
 
-            <div className={"flex m-6 text-lg bg-white rounded-2xl h-full text-gray-300 overflow-y-auto"}>
+            <div className={"flex m-6 text-lg p-4 bg-white rounded-2xl h-full text-gray-300 overflow-y-auto"}>
                 <div dangerouslySetInnerHTML={{__html: stringComponents}}></div>
             </div>
         </main>
