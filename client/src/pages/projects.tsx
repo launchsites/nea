@@ -1,5 +1,12 @@
+import {setProjectOpen} from "../utilities/storeProject"
+import type {Project} from "./builder"
+import {useNavigate} from "react-router-dom";
+
+
 export default function Projects(){
 
+  let navigate = useNavigate()
+  
   const projectArray = [
     {
       projectTitle: "project1",
@@ -266,7 +273,7 @@ export default function Projects(){
             <div className=" py-4 text-center space-y-4">
               <p className="text-xl font-semibold">{project.projectTitle}</p>
               <p>{project.projectDescription}</p>
-              <button className="bg-gray-300 cursor-pointer transition hover:text-white rounded-xl p-2 hover:bg-gray-700 text-black">Open Project</button>
+              <button onClick={() => { setProjectOpen(project as Project) ; navigate("/builder") }} className="bg-gray-300 cursor-pointer transition hover:text-white rounded-xl p-2 hover:bg-gray-700 text-black">Open Project</button>
             </div>
           </div>
         ))}

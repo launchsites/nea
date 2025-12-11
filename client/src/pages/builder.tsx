@@ -1,39 +1,48 @@
-import React from 'react';
-import {useState} from 'react';
+// import React from 'react';
+import {useState, useEffect} from 'react';
 import Canvas from "../components/canvas.tsx";
 import ComponentLibrary from "../components/componentLibrary.tsx";
 import CodeDisplay from "../components/codeDisplay.tsx";
-import type {Component, htmlTag} from "../utilities/componentTypes.ts";
+import type {htmlTag} from "../utilities/componentTypes.ts";
 import LivePreview from "../components/livePreview.tsx";
-import {Navigate, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 //import {Link} from "react-router-dom";
 
+// interface for placed component
+export interface placedComponent {
+    type: htmlTag;
+    id: string;
+    selfClosing: boolean;
+    acceptsChildren: boolean;
+    attributes?: Record<string, string>;
+    styles?: Record<string, string>;
+    children?: placedComponent[];
+    x?: number;
+    y?: number;
+    color: string;
+    class?: string;
+    contents?: string;
+}
 
+export interface Project {
+    projectTitle: string
+    projectDescription: string
+    componentsArray: placedComponent[]
+}
 
-const Builder: React.FC = () => {
+export default function Builder({project}:{project: Project | null}) {
 
     let navigate = useNavigate()
 
-    // interface for placed component
-    interface placedComponent {
-        type: htmlTag;
-        id: string;
-        selfClosing: boolean;
-        acceptsChildren: boolean;
-        attributes?: Record<string, string>;
-        styles?: Record<string, string>;
-        children?: Component[];
-        x: number;
-        y: number;
-        color: string;
-        class?: string;
-        contents?: string;
-    }
+    
 
     // array of components on the canvas
     const [components, setComponents] = useState<placedComponent[]>([
     ]);
+
+    useEffect(() => {if (project){setComponents(project.componentsArray)}})
+    
 
     const iconGrey: string = "#4B4B4B"
     const iconBlack: string = "#000"
@@ -124,5 +133,3 @@ const Builder: React.FC = () => {
 
 
 }
-
-export default Builder
