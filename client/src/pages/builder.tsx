@@ -6,7 +6,7 @@ import CodeDisplay from "../components/codeDisplay.tsx";
 import type {htmlTag} from "../utilities/componentTypes.ts";
 import LivePreview from "../components/livePreview.tsx";
 import {useNavigate} from "react-router-dom";
-
+import {projectOpen, setProjectOpen} from "../utilities/storeProject.ts"
 //import {Link} from "react-router-dom";
 
 // interface for placed component
@@ -31,17 +31,17 @@ export interface Project {
     componentsArray: placedComponent[]
 }
 
-export default function Builder({project}:{project: Project | null}) {
+export default function Builder() {
 
     let navigate = useNavigate()
 
-    
+    let project = projectOpen
 
     // array of components on the canvas
     const [components, setComponents] = useState<placedComponent[]>([
     ]);
 
-    useEffect(() => {if (project){setComponents(project.componentsArray)}})
+    useEffect(() => {if (project){setComponents(project.componentsArray)}}, [project])
     
 
     const iconGrey: string = "#4B4B4B"
@@ -55,16 +55,32 @@ export default function Builder({project}:{project: Project | null}) {
 
     let [userStart, setUserStart] = useState(true)
 
+
     const [lastSave, setLastSave] = useState(components)
     
     function saveComponents(components: placedComponent[]) {
+        if (!projectOpen){
+            let projectName = prompt("Enter the name of your new project")
+            let projectDescription = prompt("Enter the description of your new project")
+            
+            if (projectName && projectDescription){
+                let newProject: Project = {
+                    projectTitle: projectName,
+                    projectDescription: projectDescription,
+                    componentsArray: components
+                }
+                setProjectOpen(newProject)
+            }
+        }
         // + add to database
         setLastSave(components)
+        
     }
 
     function goToProjects(components: placedComponent[], lastSave: placedComponent[]) {
         if (components === lastSave) {
             navigate("/projects")
+            setProjectOpen(null)
         }
         else {alert("You have unsaved changes, please click the save button before leaving the project.")}
     }
