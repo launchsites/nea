@@ -25,3 +25,46 @@ export async function addUser(username: string, email: string, passwordhash: str
 
   return false
 }
+
+export async function authenticateUser(username: string, email: string, passwordhash: string) {
+
+  let userNameValid = validate(username, "username")
+  let emailValid = validate(email, "email")
+
+  if (!userNameValid || !emailValid) { return false}
+
+  let correctDetailsArray = await queryDatabase(`SELECT EXISTS (SELECT 1 FROM users WHERE username = '${username}' AND email = '${email}' AND passwordhash = '${passwordhash}');`)
+
+  const correctDetails: boolean = correctDetailsArray[0].exists
+
+  if (correctDetails) {
+    let userId = await queryDatabase(`SELECT id FROM users WHERE username = '${username}'`)
+    userId = userId[0].id
+    return userId
+  }
+  return false
+}
+
+function hash(password: string) {
+  let binary = ""
+  for (let i = 0; i < password.length; i++) {
+    binary += `${password.charCodeAt(i).toString(2)}`
+  }
+
+  let originalLength = binary.length
+
+  binary += "1"
+
+  while (binary.length % 512 != 448) {
+    binary += "0"
+  }
+
+  let origionalLengthBit = originalLength.toString(2).padStart(64, "0");
+  binary += origionalLengthBit
+
+  let baseTen = BigInt("0b" + binary)
+
+  baseTen %= BigInt(2) ** BigInt(64)
+
+  return baseTen.toString(16).padStart(16, "0")
+}
