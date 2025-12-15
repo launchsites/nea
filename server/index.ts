@@ -76,6 +76,22 @@ server.post('/server/create-project', async (request, response) => {
 })
 
 
+// save project route
+server.post('/server/save-project', async (request, response) => {
+  
+  const project: Project = {
+    projectTitle: request.body.projectTitle,
+    projectDescription: request.body.projectDescription,
+    componentsArray: request.body.newComponents,
+    id: request.body.projectId
+  }
+  const userid = request.body.id
+  await queryDatabase(`UPDATE projects SET projectjson = '${JSON.stringify(project)}' WHERE id =${project.id}`)
+  response.json({status: "yes"})
+})
+
+
+
 // if doesn't know what to do, gives them index.html
 server.use((request, response) => {
   response.sendFile(path.join(__dirname, '../client/dist/index.html'));

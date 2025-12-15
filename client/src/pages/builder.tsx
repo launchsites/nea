@@ -6,7 +6,7 @@ import CodeDisplay from "../components/codeDisplay.tsx";
 import type {htmlTag} from "../utilities/componentTypes.ts";
 import LivePreview from "../components/livePreview.tsx";
 import {useLocation, useNavigate} from "react-router-dom";
-import {projectOpen, setProjectOpen} from "../utilities/storeProject.ts"
+import {projectOpen, saveProjectRequest, setProjectOpen} from "../utilities/storeProject.ts"
 //import {Link} from "react-router-dom";
 
 // interface for placed component
@@ -29,6 +29,7 @@ export interface Project {
     projectTitle: string
     projectDescription: string
     componentsArray: placedComponent[]
+    id?: number
 }
 
 export default function Builder() {
@@ -58,20 +59,9 @@ export default function Builder() {
 
     const [lastSave, setLastSave] = useState(components)
     
-    function saveComponents(components: placedComponent[]) {
-        if (!projectOpen){
-            let projectName = prompt("Enter the name of your new project")
-            let projectDescription = prompt("Enter the description of your new project")
-            
-            if (projectName && projectDescription){
-                let newProject: Project = {
-                    projectTitle: projectName,
-                    projectDescription: projectDescription,
-                    componentsArray: components
-                }
-                setProjectOpen(newProject)
-            }
-        }
+    async function saveComponents(components: placedComponent[]) {
+
+        await saveProjectRequest(components)
         // + add to database
         setLastSave(components)
         

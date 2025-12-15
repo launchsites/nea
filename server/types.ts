@@ -2,6 +2,7 @@ export interface Project {
   projectTitle: string
   projectDescription: string
   componentsArray: placedComponent[]
+  id?: number
 }
 
 // interface for placed component

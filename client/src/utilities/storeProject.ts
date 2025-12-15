@@ -1,4 +1,4 @@
-import type {Project} from "../pages/builder"
+import type {placedComponent, Project} from "../pages/builder"
 
 
 let username = ""
@@ -35,6 +35,7 @@ export async function loadProjects(){
       projectTitle: row.projectjson.projectTitle,
       projectDescription: row.projectjson.projectDescription,
       componentsArray: row.projectjson.componentsArray,
+      id: row.id
     }))
   }
   else {projectArray = []}
@@ -57,6 +58,25 @@ export async function createProject(projectTitle:string, projectDescription: str
     loadProjects()
   }
   loadProjects()
+}
+
+
+export async function saveProjectRequest(components: placedComponent[]) {
+  const response = await fetch("/server/save-project", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        id: id,
+        projectTitle: projectOpen?.projectTitle,
+        projectDescription: projectOpen?.projectDescription,
+        projectId: projectOpen?.id,
+        newComponents: components
+    }),
+  })
+  const data = await response.json()
+  console.log(data.status)
 }
 
 
