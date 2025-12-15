@@ -1,0 +1,65 @@
+export interface Project {
+  projectTitle: string
+  projectDescription: string
+  componentsArray: placedComponent[]
+}
+
+// interface for placed component
+export interface placedComponent {
+  type: htmlTag;
+  id: string;
+  selfClosing: boolean;
+  acceptsChildren: boolean;
+  attributes?: Record<string, string>;
+  styles?: Record<string, string>;
+  children?: placedComponent[];
+  x?: number;
+  y?: number;
+  color: string;
+  class?: string;
+  contents?: string;
+}
+
+export type htmlTag =
+  | 'a'
+  | 'article'
+  | 'body'
+  | 'br'
+  | 'button'
+  | 'div'
+  | 'footer'
+  | 'form'
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'head'
+  | 'header'
+  | 'html'
+  | 'img'
+  | 'input'
+  | 'li'
+  | 'nav'
+  | 'ol'
+  | 'option'
+  | 'p'
+  | 'script'
+  | 'section'
+  | 'span'
+  | 'style'
+  | 'title'
+  | 'ul';
+
+export interface Component {
+  type: htmlTag;
+  id: string
+  selfClosing: boolean;
+  acceptsChildren: boolean;
+  attributes?: Record<string, string>;
+  styles?: Record<string, string>;
+  children?: Component[];
+  class?: string;
+
+}

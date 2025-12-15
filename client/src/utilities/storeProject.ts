@@ -1,273 +1,64 @@
 import type {Project} from "../pages/builder"
 
 
-let username: string
-let id: string
+let username = ""
+let id = ""
 
 export function updateUsername(newUsername: string) {
   username = newUsername
 }
 
-export function updateUserId(newId: string) {
+export async function updateUserId(newId: string) {
   id = newId
+  await loadProjects()
 }
 
+export let projectArray = []
 
+// retrieve projects from database
+export async function loadProjects(){
+  const response = await fetch("/server/get-projects", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      username: username,
+      id: id,
+    }),
+  })
+  const data = await response.json()
+  console.log("done")
 
-export let projectArray = [
-  {
-    projectTitle: "project1",
-    projectDescription: "this was my first project",
-    componentsArray: [{
-          "type": "html",
-          "id": "html0",
-          "selfClosing": false,
-          "acceptsChildren": true,
-          "attributes": {},
-          "styles": {},
-          "x": 935,
-          "y": 234,
-          "color": "orange-500",
-          "children": [
-            {
-              "type": "head",
-              "id": "head0",
-              "selfClosing": false,
-              "acceptsChildren": true,
-              "attributes": {},
-              "styles": {},
-              "color": "orange-500"
-            },
-            {
-              "type": "body",
-              "id": "body0",
-              "selfClosing": false,
-              "acceptsChildren": true,
-              "attributes": {},
-              "styles": {
-                "cornerradius": "3px"
-              },
-              "color": "orange-500",
-              "children": [
-                {
-                  "type": "div",
-                  "id": "div0",
-                  "selfClosing": false,
-                  "acceptsChildren": true,
-                  "attributes": {},
-                  "styles": {},
-                  "color": "orange-500",
-                  "children": [
-                    {
-                      "type": "h1",
-                      "id": "h10",
-                      "selfClosing": false,
-                      "acceptsChildren": true,
-                      "attributes": {},
-                      "styles": {
-                        "stroke": "bold"
-                      },
-                      "color": "orange-500",
-                      "children": [],
-                      "class": "h1-body"
-                    },
-                    {
-                      "type": "p",
-                      "id": "p0",
-                      "selfClosing": false,
-                      "acceptsChildren": true,
-                      "attributes": {},
-                      "styles": {},
-                      "color": "orange-500"
-                    }
-                  ]
-                },
-                {
-                  "type": "script",
-                  "id": "script0",
-                  "selfClosing": false,
-                  "acceptsChildren": true,
-                  "attributes": {},
-                  "styles": {},
-                  "color": "yellow-500",
-                  "contents": "console.log(\"what a great NEA\")"
-                }
-              ],
-              "class": "body-class"
-            }
-          ]
-        }
-      ],
-  },
-  {
-    projectTitle: "project2",
-    projectDescription: "this was my second project",
-    componentsArray: [{
-          "type": "html",
-          "id": "html0",
-          "selfClosing": false,
-          "acceptsChildren": true,
-          "attributes": {},
-          "styles": {},
-          "x": 935,
-          "y": 234,
-          "color": "orange-500",
-          "children": [
-            {
-              "type": "head",
-              "id": "head0",
-              "selfClosing": false,
-              "acceptsChildren": true,
-              "attributes": {},
-              "styles": {},
-              "color": "orange-500"
-            },
-            {
-              "type": "body",
-              "id": "body0",
-              "selfClosing": false,
-              "acceptsChildren": true,
-              "attributes": {},
-              "styles": {
-                "cornerradius": "3px"
-              },
-              "color": "orange-500",
-              "children": [
-                {
-                  "type": "div",
-                  "id": "div0",
-                  "selfClosing": false,
-                  "acceptsChildren": true,
-                  "attributes": {},
-                  "styles": {},
-                  "color": "orange-500",
-                  "children": [
-                    {
-                      "type": "h1",
-                      "id": "h10",
-                      "selfClosing": false,
-                      "acceptsChildren": true,
-                      "attributes": {},
-                      "styles": {
-                        "stroke": "bold"
-                      },
-                      "color": "orange-500",
-                      "children": [],
-                      "class": "h1-body"
-                    },
-                    {
-                      "type": "p",
-                      "id": "p0",
-                      "selfClosing": false,
-                      "acceptsChildren": true,
-                      "attributes": {},
-                      "styles": {},
-                      "color": "orange-500"
-                    }
-                  ]
-                },
-                {
-                  "type": "script",
-                  "id": "script0",
-                  "selfClosing": false,
-                  "acceptsChildren": true,
-                  "attributes": {},
-                  "styles": {},
-                  "color": "yellow-500",
-                  "contents": "console.log(\"what a great NEA\")"
-                }
-              ],
-              "class": "body-class"
-            }
-          ]
-        }
-      ],
-  },
-  {
-    projectTitle: "project3",
-    projectDescription: "this was my third project",
-    componentsArray: [{
-          "type": "html",
-          "id": "html0",
-          "selfClosing": false,
-          "acceptsChildren": true,
-          "attributes": {},
-          "styles": {},
-          "x": 935,
-          "y": 234,
-          "color": "orange-500",
-          "children": [
-            {
-              "type": "head",
-              "id": "head0",
-              "selfClosing": false,
-              "acceptsChildren": true,
-              "attributes": {},
-              "styles": {},
-              "color": "orange-500"
-            },
-            {
-              "type": "body",
-              "id": "body0",
-              "selfClosing": false,
-              "acceptsChildren": true,
-              "attributes": {},
-              "styles": {
-                "cornerradius": "3px"
-              },
-              "color": "orange-500",
-              "children": [
-                {
-                  "type": "div",
-                  "id": "div0",
-                  "selfClosing": false,
-                  "acceptsChildren": true,
-                  "attributes": {},
-                  "styles": {},
-                  "color": "orange-500",
-                  "children": [
-                    {
-                      "type": "h1",
-                      "id": "h10",
-                      "selfClosing": false,
-                      "acceptsChildren": true,
-                      "attributes": {},
-                      "styles": {
-                        "stroke": "bold"
-                      },
-                      "color": "orange-500",
-                      "children": [],
-                      "class": "h1-body"
-                    },
-                    {
-                      "type": "p",
-                      "id": "p0",
-                      "selfClosing": false,
-                      "acceptsChildren": true,
-                      "attributes": {},
-                      "styles": {},
-                      "color": "orange-500"
-                    }
-                  ]
-                },
-                {
-                  "type": "script",
-                  "id": "script0",
-                  "selfClosing": false,
-                  "acceptsChildren": true,
-                  "attributes": {},
-                  "styles": {},
-                  "color": "yellow-500",
-                  "contents": "console.log(\"what a great NEA\")"
-                }
-              ],
-              "class": "body-class"
-            }
-          ]
-        }
-      ],
+  if (data.length !== 0) {
+    projectArray = data.map((row: any) => ({
+      projectTitle: row.projectjson.projectTitle,
+      projectDescription: row.projectjson.projectDescription,
+      componentsArray: row.projectjson.componentsArray,
+    }))
   }
-]
+  else {projectArray = []}
+}
+
+export async function createProject(projectTitle:string, projectDescription: string) {
+  const response = await fetch('/server/create-project', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      id: id,
+      projectTitle: projectTitle,
+      projectDescription: projectDescription
+    }),
+  })
+  const data = await response.json()
+  if (data.status === "yes"){
+    loadProjects()
+  }
+  loadProjects()
+}
+
 
 export let projectOpen: Project | null = null
 

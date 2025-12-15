@@ -3,6 +3,8 @@ import express from 'express';
 import path from 'path';
 import {addUser, authenticateUser} from "./userAuth"
 import { queryDatabase } from "./database"
+import type { Project} from "./types"
+
 
 // object for handling requests and responses
 const server = express();
@@ -14,6 +16,7 @@ server.use(express.json());
 
 // serves built TSX from /client/dist
 server.use(express.static(path.join(__dirname, '../client/dist')));
+
 
 // sign up route
 server.post('/server/sign-up', async (request, response) => {
@@ -45,6 +48,32 @@ server.post('/server/login', async (request, response) => {
   else {response.json({status: "no"})}
 
 });
+
+
+// get projects route
+server.post('/server/get-projects', async (request, response) => {
+  console.log(request.body)
+  const userid: string = request.body.id
+
+  const projects = await queryDatabase(`SELECT id, projectjson FROM projects WHERE userid = '${userid}'`)
+
+  
+  // return success and then the id to make url to forward to
+  response.json(projects)
+
+});
+
+// create project route
+server.post('/server/create-project', async (request, response) => {
+  const project: Project = {
+    projectTitle: request.body.projectTitle,
+    projectDescription: request.body.projectDescription,
+    componentsArray: []
+  }
+  const userid = request.body.id
+  await queryDatabase(`INSERT INTO projects (userid, projectjson) VALUES (${userid}, '${JSON.stringify(project)}')`)
+  response.json({status: "yes"})
+})
 
 
 // if doesn't know what to do, gives them index.html

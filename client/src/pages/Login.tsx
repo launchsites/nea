@@ -44,6 +44,8 @@ export default function login() {
           if (data.status === "yes") {
             updateUsername(username)
             updateUserId(data.userid)
+            navigate("/projects")
+            console.log("success")
           }
           else {alert("Login Failed")}
         }

@@ -1,22 +1,33 @@
 import {setProjectOpen} from "../utilities/storeProject"
 import type {Project} from "./builder"
 import {useNavigate} from "react-router-dom";
-import {projectArray} from "../utilities/storeProject"
+import {projectArray, createProject} from "../utilities/storeProject"
+import { useState, useEffect } from "react"
 
-
+ 
 export default function Projects(){
 
-  let navigate = useNavigate()
-  
-  
+  // let navigate = useNavigate()
 
+
+  const [num, setnum] = useState(0)
+  
+  async function createProjectButton() {
+    const projectTitle: string = prompt("What title would you like for your project?") || ""
+    const projectDescription: string = prompt("What description would you like for your project") || ""
+
+    createProject(projectTitle, projectDescription)
+    setnum(num+1)
+  }
+
+  useEffect(() => setnum(num+1))
   
   return(
     <main className="h-screen">
       <div className="flex justify-center items-center h-[20vh]">
         <div className="text-center space-y-6">
           <h1 className="text-3xl font-bold">Projects</h1>
-          <button className="bg-gray-300 cursor-pointer transition hover:text-white rounded-xl p-2 hover:bg-gray-700 text-black" onClick={() => { setProjectOpen(null) ; navigate("/builder") }}>Create new project</button>
+          <button className="bg-gray-300 cursor-pointer transition hover:text-white rounded-xl p-2 hover:bg-gray-700 text-black" onClick={() => { createProjectButton() }}>Create new project</button>
         </div>
       </div>
       <div className="grid grid-cols-3 flex w-full bg-gray-300 h-[80vh] items-start">
