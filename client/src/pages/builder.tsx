@@ -5,7 +5,7 @@ import ComponentLibrary from "../components/componentLibrary.tsx";
 import CodeDisplay from "../components/codeDisplay.tsx";
 import type {htmlTag} from "../utilities/componentTypes.ts";
 import LivePreview from "../components/livePreview.tsx";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {projectOpen, setProjectOpen} from "../utilities/storeProject.ts"
 //import {Link} from "react-router-dom";
 
@@ -35,7 +35,7 @@ export default function Builder() {
 
     let navigate = useNavigate()
 
-    let project = projectOpen
+    const project = useLocation().state
 
     // array of components on the canvas
     const [components, setComponents] = useState<placedComponent[]>([

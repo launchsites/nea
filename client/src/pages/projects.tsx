@@ -1,4 +1,4 @@
-import {setProjectOpen} from "../utilities/storeProject"
+import {loadProjects, setProjectOpen} from "../utilities/storeProject"
 import type {Project} from "./builder"
 import {useNavigate} from "react-router-dom";
 import {projectArray, createProject} from "../utilities/storeProject"
@@ -7,7 +7,7 @@ import { useState, useEffect } from "react"
  
 export default function Projects(){
 
-  // let navigate = useNavigate()
+  let navigate = useNavigate()
 
 
   const [num, setnum] = useState(0)
@@ -20,7 +20,14 @@ export default function Projects(){
     setnum(num+1)
   }
 
-  useEffect(() => setnum(num+1))
+  
+  // on page load, wait for load projects, then update num variable to trigger UI refresh
+  useEffect(() => {
+    (async () => {
+      await loadProjects()
+      setnum(n => n+ 1)
+    }) ()
+  }, [])
   
   return(
     <main className="h-screen">
@@ -37,7 +44,7 @@ export default function Projects(){
             <div className=" py-4 text-center space-y-4">
               <p className="text-xl font-semibold">{project.projectTitle}</p>
               <p>{project.projectDescription}</p>
-              <button onClick={() => { setProjectOpen(project as Project) ; navigate("/builder") }} className="bg-gray-300 cursor-pointer transition hover:text-white rounded-xl p-2 hover:bg-gray-700 text-black">Open Project</button>
+              <button onClick={() => { setProjectOpen(project as Project) ; navigate("/builder", {state: project}) }} className="bg-gray-300 cursor-pointer transition hover:text-white rounded-xl p-2 hover:bg-gray-700 text-black">Open Project</button>
             </div>
           </div>
         ))}
