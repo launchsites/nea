@@ -4,12 +4,30 @@ import {validate} from "./validation"
 // Adding new users to the database
 // Checking if username, email, password match
 
-export async function addUser(username: string, email: string, passwordhash: string) {
+export async function addUser(username: string, email: string, password: string) {
 
-  let userNameValid = validate(username, "username")
-  let emailValid = validate(email, "email")
+  
+  let userNameValid = false
+  let emailValid = false
+  let passwordValid = false
 
-  if (!userNameValid || !emailValid) { return false}
+  if (validate(username, "string")) {
+    userNameValid = validate(username, "username")
+  }
+
+  if (validate(email, "email")) {
+    emailValid = validate(email, "email")
+  }
+
+  let passwordhash = ""
+  if (validate(password, "string")) {
+    if (validate(password, "password")) {
+      passwordhash = hash(password)
+      passwordValid = true
+    }
+  }
+
+  if (!userNameValid || !emailValid || !passwordValid) { return false}
 
   let usernameExists = await queryDatabase(`SELECT EXISTS (SELECT 1 FROM users WHERE username = '${username}');`)
   let emailExists = await queryDatabase(`SELECT EXISTS (SELECT 1 FROM users WHERE email = '${email}');`)
@@ -26,12 +44,30 @@ export async function addUser(username: string, email: string, passwordhash: str
   return false
 }
 
-export async function authenticateUser(username: string, email: string, passwordhash: string) {
+export async function authenticateUser(username: string, email: string, password: string) {
 
-  let userNameValid = validate(username, "username")
-  let emailValid = validate(email, "email")
+  let userNameValid = false
+  let emailValid = false
+  let passwordValid = false
 
-  if (!userNameValid || !emailValid) { return false}
+  if (validate(username, "string")) {
+    userNameValid = validate(username, "username")
+  }
+
+  if (validate(email, "email")) {
+    emailValid = validate(email, "email")
+  }
+
+
+  let passwordhash = ""
+  if (validate(password, "string")) {
+    if (validate(password, "password")) {
+      passwordhash = hash(password)
+      passwordValid = true
+    }
+  }
+
+  if (!userNameValid || !emailValid || !passwordValid) { return false}
 
   let correctDetailsArray = await queryDatabase(`SELECT EXISTS (SELECT 1 FROM users WHERE username = '${username}' AND email = '${email}' AND passwordhash = '${passwordhash}');`)
 

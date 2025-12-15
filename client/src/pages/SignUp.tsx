@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import Navbar from '../components/navbar.tsx'
+import {validate} from "../utilities/validation.ts"
 
 export default function signUp() {
   //username
@@ -10,14 +11,42 @@ export default function signUp() {
   //password
   const [password, setPassword] = useState("");
 
+  
+
   //on form submit
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 
     // stop page reloading
     event.preventDefault();
 
    //validation would go here
-    // alert(username + " " + email + " " + password)
+    const passwordValid: boolean = validate(password, "password")
+    const emailValid: boolean = validate(email, "email")
+    const usernameValid: boolean = validate(username, "username")
+
+    if (passwordValid && emailValid && usernameValid) {
+      const response = await fetch("/server/sign-up", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+        }),
+      })
+      const data = await response.json()
+      console.log("done")
+
+      if (data.status === "yes") {
+        alert("Account Created Successfully")
+      }
+      else {alert("Login Failed")}
+    }
+    else {
+      alert("Invalid credentials")
+    }
   }
   
   return (
@@ -38,9 +67,7 @@ export default function signUp() {
           {/* input password */}
           <input className="text-center border-2 m-5 p-2" type="password" placeholder="password" value={password} onChange={(event) => setPassword(event.target.value)}>
             </input>
-          <a href="">
-          <button className={"border-2 m-5 w-120 p-2 bg-yellow-500 transition hover:bg-yellow-400"} type="submit">Submit</button>
-          </a>
+          <button className={"border-2 cursor-pointer m-5 w-120 p-2 bg-yellow-500 transition hover:bg-yellow-400"} type="submit">Submit</button>
         </form>
       </div>
     </div>
