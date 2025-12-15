@@ -1,7 +1,8 @@
 // importing express for web server and path for working with files
 import express from 'express';
 import path from 'path';
-import {addUser} from "./userAuth"
+import {addUser, authenticateUser} from "./userAuth"
+import { queryDatabase } from "./database"
 
 // object for handling requests and responses
 const server = express();
@@ -26,6 +27,23 @@ server.post('/server/sign-up', async (request, response) => {
   if (success) {response.json({status: "yes"})}
   else {response.json({status: "no"})}
   
+});
+
+// login route
+server.post('/server/login', async (request, response) => {
+  console.log(request.body)
+  const username:string = request.body.username
+  const email:string = request.body.email
+  const password:string = request.body.password
+
+  const success = await authenticateUser(username, email, password)
+
+  let userId = await queryDatabase(`SELECT id FROM users WHERE username = '${username}'`)
+  // return success and then the id to make url to forward to
+  if (success) {response.json({status: "yes", userid: userId[0].id})}
+
+  else {response.json({status: "no"})}
+
 });
 
 

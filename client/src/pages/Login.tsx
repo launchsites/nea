@@ -1,6 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import Navbar from '../components/navbar.tsx'
+import { validate } from "../utilities/validation.ts"
+import {useNavigate} from "react-router-dom"
 
 export default function login() {
     //username
@@ -10,15 +12,43 @@ export default function login() {
     //password
     const [password, setPassword] = useState("");
 
+    const navigate = useNavigate()
+    
     //on form submit
-    const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 
         // stop page reloading
         event.preventDefault();
 
-        //validation would go here
+       //validation would go here
+        const passwordValid: boolean = validate(password, "password")
+        const emailValid: boolean = validate(email, "email")
+        const usernameValid: boolean = validate(username, "username")
 
-    }
+        if (passwordValid && emailValid && usernameValid) {
+          const response = await fetch("/server/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              username,
+              email,
+              password,
+            }),
+          })
+          const data = await response.json()
+          console.log("done")
+
+          if (data.status === "yes") {
+              navigate(`/projects?userid=${data.userid}&username=${username}`)
+          }
+          else {alert("Login Failed")}
+        }
+        else {
+          alert("Invalid credentials")
+        }
+      }
 
     return (
 
@@ -38,9 +68,7 @@ export default function login() {
                     {/* input password */}
                     <input className="text-center border-2 m-5 p-2" type="password" placeholder="password" value={password} onChange={(event) => setPassword(event.target.value)}>
                     </input>
-                    <a href="">
-                        <button className={"border-2 m-5 w-120 p-2 bg-yellow-500 transition hover:bg-yellow-400"} type="submit">Submit</button>
-                    </a>
+                        <button className={"border-2 m-5 w-120 p-2 bg-yellow-500 transition hover:bg-yellow-400 cursor-pointer"} type="submit">Submit</button>
                 </form>
             </div>
         </div>

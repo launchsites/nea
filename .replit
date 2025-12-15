@@ -1,4 +1,4 @@
-run = "cd server && npx ts-node index.ts"
+run = "cd client && npm run build && cd ../server && npx ts-node index.ts"
 entrypoint = "README.md"
 modules = ["nodejs-20"]
 
