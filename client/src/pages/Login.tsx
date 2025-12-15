@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Navbar from '../components/navbar.tsx'
 import { validate } from "../utilities/validation.ts"
 import {useNavigate} from "react-router-dom"
+import {updateUsername, updateUserId} from "../utilities/storeProject.ts"
 
 export default function login() {
     //username
@@ -41,7 +42,8 @@ export default function login() {
           console.log("done")
 
           if (data.status === "yes") {
-              navigate(`/projects?userid=${data.userid}&username=${username}`)
+            updateUsername(username)
+            updateUserId(data.userid)
           }
           else {alert("Login Failed")}
         }

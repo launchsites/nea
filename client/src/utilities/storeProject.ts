@@ -1,6 +1,19 @@
 import type {Project} from "../pages/builder"
 
 
+let username: string
+let id: string
+
+export function updateUsername(newUsername: string) {
+  username = newUsername
+}
+
+export function updateUserId(newId: string) {
+  id = newId
+}
+
+
+
 export let projectArray = [
   {
     projectTitle: "project1",
