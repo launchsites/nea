@@ -430,7 +430,7 @@ export default function Canvas({components, setComponents}) {
 
             //wrapper
             <div className="w-full z-9999 text-black fixed top-0 left-0 h-screen justify-center items-center flex">
-                <div className="bg-gray-200 rounded-l p-4">
+                <div className="bg-gray-200 rounded-l p-4 max-w-1/3">
                 <div className="relative mb-7">
                     <button className="hover:text-red-600 top-0 right-0 absolute" onClick={()=> setOpenPanel("none")}>X</button>
                 </div>
