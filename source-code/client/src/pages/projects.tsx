@@ -1,7 +1,7 @@
-import {loadProjects, setProjectOpen} from "../utilities/storeProject"
-import type {Project} from "./builder"
+import {loadProjects, setProjectOpen} from "../utilities/storeProject.ts"
+import type {Project} from "./builder.tsx"
 import {useNavigate} from "react-router-dom";
-import {projectArray, createProject} from "../utilities/storeProject"
+import {projectArray, createProject} from "../utilities/storeProject.ts"
 import { useState, useEffect } from "react"
 
  

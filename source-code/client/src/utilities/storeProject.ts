@@ -1,4 +1,4 @@
-import type {placedComponent, Project} from "../pages/builder"
+import type {placedComponent, Project} from "../pages/builder.tsx"
 
 
 let username = ""
